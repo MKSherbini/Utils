@@ -1,0 +1,10 @@
+D:\VS2017\Projects\cmdTimer\cmdTimer\bin\Debug\cmdTimer.exe.config
+D:\VS2017\Projects\cmdTimer\cmdTimer\bin\Debug\cmdTimer.exe
+D:\VS2017\Projects\cmdTimer\cmdTimer\bin\Debug\cmdTimer.pdb
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.csprojAssemblyReference.cache
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.Form1.resources
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.Properties.Resources.resources
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.csproj.GenerateResource.cache
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.csproj.CoreCompileInputs.cache
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.exe
+D:\VS2017\Projects\cmdTimer\cmdTimer\obj\Debug\cmdTimer.pdb
