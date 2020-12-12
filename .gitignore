@@ -1,0 +1,4 @@
+YoutubeDL/Download/*
+!YoutubeDL/Download/batch-file.txt
+!YoutubeDL/Download/youtube-dl_normal_pythonRepo.bat
+!YoutubeDL/Download/RunFixAndListAnime.bat
