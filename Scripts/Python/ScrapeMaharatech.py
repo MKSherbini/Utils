@@ -20,7 +20,7 @@ def main():
     startingPage = "https://maharatech.gov.eg/login/index.php"
     SiteUser = "x"
     SitePass = "x"
-    PATH = "C:/DefinitelyNotWindows/Tracks/Web Scraping/Tools/geckodriver.exe"
+    PATH = "D:/Tracks/Web Scraping/Tools/geckodriver.exe"
     delay = 3
     driver = webdriver.Firefox(executable_path=PATH)
     driver.get(startingPage)

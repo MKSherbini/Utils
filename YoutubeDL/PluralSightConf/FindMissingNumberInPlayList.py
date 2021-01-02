@@ -8,6 +8,8 @@ from os import walk
 from inspect import getsourcefile
 from os.path import abspath
 from os.path import dirname
+import sys
+
 # Function to rename multiple files
 
 
@@ -15,8 +17,12 @@ def main():
 
     # path = "C:/DefinitelyNotWindows/Tracks/GameDev/Unity/Unity tut/PluralSight/Unreal/Unreal Engine 4 Fundamentals"
     # path = "C:/DefinitelyNotWindows/Tracks/GameDev/Unity/Unity tut/PluralSight/Unreal/"
-    path = dirname(abspath(getsourcefile(lambda: None)))
-    # print(path)
+    if len(sys.argv) == 1:
+        path = os.path.dirname(os.path.abspath(getsourcefile(lambda: None)))
+    else:
+        path = sys.argv[1]
+    
+    print(path)
 
     for (dirpathr, dirnamesr, filenamesr) in walk(path):
         for target in dirnamesr:

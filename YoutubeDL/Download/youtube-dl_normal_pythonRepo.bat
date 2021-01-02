@@ -1,2 +1,2 @@
-cmd /c "python "%CD%/../ytdlsrc/youtube-dl/youtube_dl/__main__.py" --config-location "%CD%/../NormalConf/youtube-dl.conf""
+cmd /c "python "%UTILS%/YoutubeDL/ytdlsrc/youtube-dl/youtube_dl/__main__.py" --config-location "%UTILS%/YoutubeDL/NormalConf/youtube-dl.conf""
 pause

@@ -1,2 +1,2 @@
-cmd /c "python "%CD%\..\..\Scripts\Python\FixAndListAnimeNames.py" "%CD%" "NA.""
+cmd /c "python "%UTILS%\Scripts\Python\FixAndListAnimeNames.py" "%CD%" "NA.""
 pause
