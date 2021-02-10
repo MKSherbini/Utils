@@ -1,0 +1,2 @@
+https://app.pluralsight.com/library/courses/maven-fundamentals
+https://app.pluralsight.com/library/courses/gradle-build-tool-fundamentals

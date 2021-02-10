@@ -1,0 +1,2 @@
+setx Pluralsight_Pass x
+pause
