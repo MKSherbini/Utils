@@ -1,1 +1,3 @@
-https://app.pluralsight.com/library/courses/html-css-javascript-big-picture
+https://app.pluralsight.com/library/courses/css-applying-special-effects
+https://app.pluralsight.com/library/courses/debugging-sites-chrome-devtools
+https://app.pluralsight.com/library/courses/google-analytics-understand-site-traffic
