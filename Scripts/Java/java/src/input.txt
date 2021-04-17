@@ -1,0 +1,33 @@
+<HTML>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        text-align: left;
+        padding: 16px;
+    }
+</style>
+
+<BODY>
+    <div style=" max-width: max-content;margin-top: 50px;margin-left: auto;margin-right: auto;">
+        <div style="margin-left: 20px;">
+            <h1>Registration form</h1>
+        </div>
+        <div style="margin-left: 10px;">
+            please enter the first name or part of it
+        </div>
+        <FORM method=POST>
+            <BR> <b> FirstName:</b><INPUT style="margin-left: 12px;margin-top: 5px;margin-bottom: 5px;" TYPE=TEXT
+                NAME=fname>
+            <INPUT TYPE="SUBMIT" VALUE="Submit">
+        </FORM>
+    </div>
+
+</BODY>
+
+</HTML>
