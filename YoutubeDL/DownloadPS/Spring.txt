@@ -1,0 +1,17 @@
+https://app.pluralsight.com/library/courses/spring-framework-securing-applications-against-common-security-threats
+https://app.pluralsight.com/library/courses/spring-security-fundamentals
+https://app.pluralsight.com/library/courses/spring-security-authentication-authorization-layers-of-defense
+https://app.pluralsight.com/library/courses/oauth2-spring-security-spring-boot
+https://app.pluralsight.com/library/courses/securing-spring-data-rest-apis
+https://app.pluralsight.com/library/courses/spring-framework-spring-mvc-fundamentals
+https://app.pluralsight.com/library/courses/spring-framework-documenting-spring-data-rest-apis-swagger-springfox
+https://app.pluralsight.com/library/courses/spring-framework-versioning-spring-data-rest-apis
+https://app.pluralsight.com/library/courses/spring-integration-getting-started
+https://app.pluralsight.com/library/courses/spring-integration-message-system-design-patterns
+https://app.pluralsight.com/library/courses/spring-integration-monitoring-system-management-debugging
+https://app.pluralsight.com/library/courses/spring-integration-advanced-message-handling-routing-transformations
+https://app.pluralsight.com/library/courses/spring-framework-overview-spring-data
+https://app.pluralsight.com/library/courses/building-applications-spring-jdbc
+https://app.pluralsight.com/library/courses/spring-data-jpa-getting-started
+https://app.pluralsight.com/library/courses/spring-jpa-hibernate
+https://app.pluralsight.com/library/courses/spring-framework-data-mongodb

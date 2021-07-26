@@ -1,12 +1,11 @@
 @echo off
-for /d %%I in (*) do (
+for %%I in (*.html) do (
     echo  ######################################################
-    echo  == Encoding File == "%%I"
+    echo  == Original File == "%%I"
     echo  ......
-
-    winrar.exe a "%%I.rar" "%%I" -df -ibck
-    
+    echo  == New File == "%%~nI.jsp" 
     echo  ######################################################
     echo.
+    rename "%%I" "%%~nI.jsp"
 )
-rem pause
+pause

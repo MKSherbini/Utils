@@ -1,12 +1,11 @@
 @echo off
-for /d %%I in (*) do (
+for %%I in (*.mp4) do (
     echo  ######################################################
-    echo  == Encoding File == "%%I"
+    echo  == Original File == "%%I"
     echo  ......
-
-    winrar.exe a "%%I.rar" "%%I" -df -ibck
-    
+    echo  == New File == "%%I.part" 
     echo  ######################################################
     echo.
+    rename "%%I" "%%I.part"
 )
-rem pause
+pause

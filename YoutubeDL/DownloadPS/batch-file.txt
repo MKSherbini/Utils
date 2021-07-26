@@ -1,3 +1,5 @@
-https://app.pluralsight.com/library/courses/css-applying-special-effects
-https://app.pluralsight.com/library/courses/debugging-sites-chrome-devtools
-https://app.pluralsight.com/library/courses/google-analytics-understand-site-traffic
+https://app.pluralsight.com/library/courses/junit-5-unit-testing-getting-started
+https://app.pluralsight.com/library/courses/tdd-junit5
+https://app.pluralsight.com/library/courses/getting-started-with-easy-mock
+https://app.pluralsight.com/library/courses/mockito-getting-started
+https://app.pluralsight.com/library/courses/java-unit-testing-legacy-code
