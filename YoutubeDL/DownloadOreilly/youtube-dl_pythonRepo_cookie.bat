@@ -1,2 +1,0 @@
-cmd /c "python "%UTILS%/YoutubeDL/ytdlsrc/youtube-dl/youtube_dl/__main__.py" --config-location "%UTILS%/YoutubeDL/OreillyConf/youtube-dl.conf" --playlist-start 1" --download-archive archive.txt
-    pause

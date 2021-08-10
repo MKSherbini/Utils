@@ -1,17 +1,6 @@
-YoutubeDL/Download/*
-!YoutubeDL/Download/batch-file.txt
-!YoutubeDL/Download/youtube-dl_normal_pythonRepo.bat
-!YoutubeDL/Download/RunFixAndListAnime.bat
-
-YoutubeDL/DownloadPS/*
-!YoutubeDL/DownloadPS/*.txt
-!YoutubeDL/DownloadPS/youtube-dl_pluralsight_pythonRepo.bat
-!YoutubeDL/DownloadPS/youtube-dl_pythonRepo_cookie.bat
-!YoutubeDL/DownloadPS/FindMissingNumberInPlayList.bat
-
-YoutubeDL/DownloadOreilly/*
-!YoutubeDL/DownloadOreilly/*.txt
-!YoutubeDL/DownloadOreilly/youtube-dl_pythonRepo_cookie.bat
-!YoutubeDL/DownloadOreilly/FindMissingNumberInPlayList.bat
+YoutubeDL/*/*
+!YoutubeDL/*/*.txt
+!YoutubeDL/*/*.bat
+!YoutubeDL/*/*.conf
 
 YoutubeDL/*/cookies.txt

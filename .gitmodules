@@ -1,3 +1,6 @@
 [submodule "YoutubeDL/ytdlsrc/youtube-dl"]
 	path = YoutubeDL/ytdlsrc/youtube-dl
 	url = https://github.com/ytdl-org/youtube-dl
+[submodule "YoutubeDL/ytdlsrc/yt-dlp"]
+	path = YoutubeDL/ytdlsrc/yt-dlp
+	url = https://github.com/yt-dlp/yt-dlp
