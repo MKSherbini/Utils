@@ -1,2 +1,2 @@
-cmd /c "python "%UTILS%/YoutubeDL/PluralSightConf/FindMissingNumberInPlayList.py" "%CD%" "
+cmd /c "python "%UTILS%/YoutubeDL/Configs/FindMissingNumberInPlayList.py" "%CD%" "
 pause
