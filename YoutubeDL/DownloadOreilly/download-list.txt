@@ -1,3 +1,8 @@
+https://learning.oreilly.com/videos/enterprise-messaging-with/9781491917671/
+https://learning.oreilly.com/videos/learning-path-delivering/9781491989012/
+https://learning.oreilly.com/videos/securing-java-web/9781771375306/
+https://learning.oreilly.com/videos/kubernetes-microservices/10000DIHV201804/
+
 xhttps://learning.oreilly.com/videos/learning-path-delivering/9781491989012/
 
 xhttps://learning.oreilly.com/videos/securing-java-web/9781771375306/
@@ -8,7 +13,6 @@ xhttps://learning.oreilly.com/videos/enterprise-messaging-with/9781491917671/
 xhttps://learning.oreilly.com/videos/react-the/9781801812603/
 xhttps://learning.oreilly.com/videos/angular-the/9781788998437/
 
-xhttps://learning.oreilly.com/videos/learning-path-github/9781491972069/
 xhttps://learning.oreilly.com/videos/learning-path-enterprise/9781491964965/
 xhttps://learning.oreilly.com/videos/learning-path-delivering/9781491989012/
 xhttps://learning.oreilly.com/videos/learning-path-go/9781491958100/
@@ -28,6 +32,7 @@ xhttps://learning.oreilly.com/videos/learning-path-groovy/9781491958148/
 zhttps://learning.oreilly.com/videos/cucumber-bdd-made/9781800568921/
 zhttps://learning.oreilly.com/videos/amazon-web-services/9780135581247/
 zhttps://learning.oreilly.com/videos/master-java-web/9781789130133/
+xhttps://learning.oreilly.com/videos/learning-path-github/9781491972069/
 
 zhttps://learning.oreilly.com/learning-paths/learning-path-software/0636920342458/
 zhttps://learning.oreilly.com/learning-paths/learning-path-software/0636920342519/
