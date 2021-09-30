@@ -13,20 +13,21 @@ def main():
     else:
         dir1 = sys.argv[-1]
 
+
     for (dirpath, dirnames, filenames) in os.walk(dir1):
         for filename in filenames:
             dst = filename
             # if dst[4:6]=="  ":
-                # print(dst)
-                # print(dst[:4]+"X"+dst[5:])
+            # print(dst)
+            # print(dst[:4]+"X"+dst[5:])
 
-                # if dst[-11:] == "description":
-                #     dst=dst[:4]+dst[5:]+"O"
-                # else:
-                #     dst=dst[:4]+dst[5:]
+            # if dst[-11:] == "description":
+            #     dst=dst[:4]+dst[5:]+"O"
+            # else:
+            #     dst=dst[:4]+dst[5:]
 
-                # os.rename(os.path.join(dirpath, filename),
-                #           os.path.join(dirpath, dst))
+            # os.rename(os.path.join(dirpath, filename),
+            #           os.path.join(dirpath, dst))
             match = re.findall(r"(^[0-9]+[.-])[^ ]", dst)
             if match:
                 dst = dst.replace(match[0], match[0][:-1]+". ")

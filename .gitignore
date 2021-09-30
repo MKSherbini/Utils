@@ -4,3 +4,7 @@ YoutubeDL/*/*
 !YoutubeDL/*/*.conf
 
 YoutubeDL/*/cookies.txt
+
+**/.idea
+*.iml
+**/java/**/target
