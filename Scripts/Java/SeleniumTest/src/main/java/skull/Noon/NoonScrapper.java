@@ -2,6 +2,7 @@ package skull.Noon;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -74,7 +75,7 @@ public class NoonScrapper {
     private List<NoonDiscount> scrapPageByPage(int pagesCount) {
         log.info("{}:scrapping {} pages", logID, pagesCount);
         var allDiscounts = new ArrayList<NoonDiscount>();
-        for (var page = 1; page <= 1; page++) {
+        for (var page = 1; page <= pagesCount; page++) {
             allDiscounts.addAll(scrapPage(page));
             sortAndPrint(allDiscounts);
         }
@@ -96,14 +97,11 @@ public class NoonScrapper {
         driver.get(url + "&page=" + pageNumber);
         List<WebElement> discounts = driver.findElements(By.className("discount"));
         log.info("{}:discounts for Page-{}: found {} elements ", logID, pageNumber, discounts.size());
-        final List<NoonDiscount> noonDiscounts = discounts.stream()
+        return discounts.stream()
                 .filter(noonDiscountService::isValuable)
+                .filter(noonDiscountService::hasTrustedSeller)
                 .map(noonDiscountService::createDiscount)
-                .filter(NoonDiscount::hasTrustedSeller)
-                .sequential()
                 .collect(Collectors.toList());
-        log.info(String.valueOf(noonDiscounts));
-        return noonDiscounts;
     }
 
 }

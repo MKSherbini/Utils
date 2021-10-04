@@ -30,8 +30,8 @@ public class NoonDiscount implements Comparable<NoonDiscount> {
 //   float sellerRate;
 //   float productRate;
 
-    private static final List<String> trustedSellers = List.of(
-            "noon"
+    private static final List<String> trustedSellers = List.of("noon"
+//            , "more shopping"
     );
 
     @Override
@@ -52,7 +52,7 @@ public class NoonDiscount implements Comparable<NoonDiscount> {
     }
 
     public boolean hasTrustedSeller() {
-        return trustedSellers.contains(sellerName);
+        return trustedSellers.contains(sellerName.toLowerCase());
     }
 
 }

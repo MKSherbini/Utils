@@ -58,7 +58,7 @@ public class NoonOutput {
 
     private static String renderRow(NoonDiscount discount) {
         return "<tr>\n" +
-                "      <th scope=\"row\">" + discount.getDiscount() + "</th>\n" +
+                "      <th scope=\"row\">" + discount.getDiscount() + "%</th>\n" +
                 "      <td> <a href=\"" + discount.getUrl() + "\">" + discount.getItemName() + "</a></td>\n" +
                 "      <td>" + discount.getPrice() + "</td>\n" +
                 "      <td>" + discount.getOldPrice() + "</td>\n" +
