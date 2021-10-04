@@ -1,4 +1,5 @@
 
+https://learning.oreilly.com/videos/wiremock-for-java/9781839210747/
 https://www.oreilly.com/videos/docker-dockerfile-and/9781800206847/
 https://learning.oreilly.com/videos/advanced-java-performance/9780134653273/
 https://learning.oreilly.com/videos/optimizing-java/9781492044673/

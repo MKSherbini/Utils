@@ -1,10 +1,9 @@
-package com;
+package skull;
 
-import com.until.HelperSleep;
+import skull.utils.HelperSleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 //import org.sikuli.api.robot.desktop.DesktopKeyboard;
 import org.sikuli.hotkey.Keys;
 import org.sikuli.script.Image;
