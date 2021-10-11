@@ -2,7 +2,6 @@ package skull.Noon;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -15,10 +14,12 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class NoonScrapper {
+public class NoonScrapper implements Callable<List<NoonDiscount>> {
     private final WebDriver driver;
     private final boolean isVisible;
     private final String url;
@@ -55,14 +56,17 @@ public class NoonScrapper {
         return firefoxOptions;
     }
 
-    public List<NoonDiscount> scrap() {
+    public List<NoonDiscount> call() {
         var timer = new Timer();
         timer.mark();
         try {
             return startScrapping();
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return null;
         } finally {
             driver.quit();
-            timer.log();
+            timer.log(logID);
         }
     }
 
@@ -76,7 +80,7 @@ public class NoonScrapper {
         log.info("{}:scrapping {} pages", logID, pagesCount);
         var allDiscounts = new ArrayList<NoonDiscount>();
         for (var page = 1; page <= pagesCount; page++) {
-            allDiscounts.addAll(scrapPage(page));
+            allDiscounts.addAll(scrapPage(page, pagesCount));
             sortAndPrint(allDiscounts);
         }
         return allDiscounts;
@@ -93,14 +97,13 @@ public class NoonScrapper {
         }
     }
 
-    private List<NoonDiscount> scrapPage(int pageNumber) {
+    private List<NoonDiscount> scrapPage(int pageNumber, int pagesCount) {
         driver.get(url + "&page=" + pageNumber);
         List<WebElement> discounts = driver.findElements(By.className("discount"));
-        log.info("{}:discounts for Page-{}: found {} elements ", logID, pageNumber, discounts.size());
+        log.info("{}:discounts for Page-{}/{}: found {} elements ", logID, pageNumber, pagesCount, discounts.size());
         return discounts.stream()
-                .filter(noonDiscountService::isValuable)
-                .filter(noonDiscountService::hasTrustedSeller)
-                .map(noonDiscountService::createDiscount)
+                .map(noonDiscountService::createDiscountIfWorth)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 

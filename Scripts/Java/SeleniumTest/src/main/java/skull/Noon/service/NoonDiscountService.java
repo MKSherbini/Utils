@@ -50,6 +50,42 @@ public class NoonDiscountService {
                 .build();
     }
 
+    public NoonDiscount createDiscountIfWorth(WebElement discountElement) {
+        var productUrl = getUrl(discountElement);
+        final int discount = getDiscount(discountElement);
+        final float price = getPrice(discountElement);
+
+        if (!isValuable(discount, price)) return null;
+
+        var tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.get(productUrl);
+
+        var sellerName = getSellerName();
+        if (!hasTrustedSeller(sellerName)) {
+            driver.switchTo().window(tabs.get(0));
+            return null;
+        }
+
+        var imageUrls = getImageUrls();
+        var isExpress = getExpressStatus();
+        var itemName = getItemName();
+
+        driver.switchTo().window(tabs.get(0));
+
+        return NoonDiscount.builder()
+                .discount(discount)
+                .itemName(itemName)
+                .price(price)
+                .oldPrice(getOldPrice(discountElement))
+                .imageUrls(imageUrls)
+                .imageUrlMain(imageUrls.get(0))
+                .sellerName(sellerName)
+                .isExpress(isExpress)
+                .url(productUrl)
+                .build();
+    }
+
     private List<String> getImageUrls() {
         return driver.findElements(By.cssSelector("img[src*='products/tr:n-t_400']")).stream()
                 .map(urlElement -> urlElement.getAttribute("src"))
@@ -103,6 +139,10 @@ public class NoonDiscountService {
         var discount = getDiscount(webElement);
         var price = getPrice(webElement);
 
+        return isValuable(discount, price);
+    }
+
+    private boolean isValuable(int discount, float price) {
         return NoonDiscount.builder().discount(discount).price(price).build().isValuable();
     }
 
@@ -116,6 +156,10 @@ public class NoonDiscountService {
 
         driver.switchTo().window(tabs.get(0));
 
+        return hasTrustedSeller(seller);
+    }
+
+    private boolean hasTrustedSeller(String seller) {
         return NoonDiscount.builder().sellerName(seller).build().hasTrustedSeller();
     }
 }

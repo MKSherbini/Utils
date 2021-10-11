@@ -15,4 +15,8 @@ public class Timer {
     public void log() {
         log.info("Time since last mark: {}", mark());
     }
+
+    public void log(String id) {
+        log.info("Time since last mark for {}: {}", id, mark());
+    }
 }
