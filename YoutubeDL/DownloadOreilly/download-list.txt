@@ -1,4 +1,5 @@
 
+
 https://learning.oreilly.com/videos/wiremock-for-java/9781839210747/
 https://www.oreilly.com/videos/docker-dockerfile-and/9781800206847/
 https://learning.oreilly.com/videos/advanced-java-performance/9780134653273/
@@ -36,6 +37,22 @@ https://learning.oreilly.com/videos/selenium-webdriver-with/9781789137194/
 https://learning.oreilly.com/videos/clean-code-applied/9780134843810/
 https://learning.oreilly.com/videos/java-interview-guide/9781789132328/
 https://learning.oreilly.com/videos/data-structures-and/9781801078504/
+https://learning.oreilly.com/videos/mastering-linux-command/9781800204027/
+https://learning.oreilly.com/videos/web-services-rest-api/9781789134926/
+https://learning.oreilly.com/videos/modern-web-design/9781800563179/
+https://learning.oreilly.com/videos/beginning-graphql/9781789533934/
+https://learning.oreilly.com/videos/appium-selenium-mobile-automation-testing/9781789136128/
+https://learning.oreilly.com/videos/mockito-tutorial/9781789135039/
+https://learning.oreilly.com/videos/command-line-fundamentals/9781789955484/
+https://learning.oreilly.com/videos/amazon-ec2-master/9781789342819/
+https://learning.oreilly.com/videos/aws-lambda-and/9781789349955/
+https://learning.oreilly.com/videos/complete-introduction-to/9781789349344/
+https://learning.oreilly.com/videos/grpc-java-master/9781838558048/
+https://learning.oreilly.com/videos/grpc-golang-master/9781838555467/
+https://learning.oreilly.com/videos/ethical-hacking-masterclass/9781789530018/
+https://learning.oreilly.com/videos/web-application-hacking/9781801079419/
+https://learning.oreilly.com/videos/web-hacking-secrets/9781839214684
+https://learning.oreilly.com/videos/node-js-api-masterclass/9781800569638/
 
 https://learning.oreilly.com/learning-paths/learning-path-software/0636920342458/
 https://learning.oreilly.com/learning-paths/learning-path-software/0636920342519/

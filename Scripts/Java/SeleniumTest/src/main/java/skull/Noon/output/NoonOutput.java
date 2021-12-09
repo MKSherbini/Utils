@@ -1,10 +1,9 @@
-package skull.Noon;
+package skull.Noon.output;
 
 import skull.Noon.model.NoonDiscount;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;

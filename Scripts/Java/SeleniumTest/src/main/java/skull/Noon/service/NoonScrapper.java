@@ -1,59 +1,37 @@
-package skull.Noon;
+package skull.Noon.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.NoSuchElementException;
+import skull.Noon.output.NoonOutput;
 import skull.Noon.model.NoonDiscount;
-import skull.Noon.service.NoonDiscountService;
 import skull.utils.Timer;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class NoonScrapper implements Callable<List<NoonDiscount>> {
-    private final WebDriver driver;
-    private final boolean isVisible;
     private final String url;
     private final String filePath;
     private final String logID;
 
+    private static final List<String> paramPreferredStores = List.of(
+            "f[partner]=p_1", "f[partner]=p_9404" // sold by noon
+    );
+    private static final String paramItemsLimit = "limit=200";       // view 200 items per page (max)
+
     private final NoonDiscountService noonDiscountService;
+    private final WebDriver driver;
 
-
-    NoonScrapper(boolean isVisible, String url, String filePath, String logID) {
-        this.isVisible = isVisible;
+    public NoonScrapper(String url, String filePath, String logID, WebDriver driver) {
         this.url = url;
         this.filePath = filePath;
         this.logID = logID;
-        driver = initDriver();
+        this.driver = driver;
         this.noonDiscountService = new NoonDiscountService(driver);
-    }
-
-    private WebDriver initDriver() {
-        final WebDriver driver;
-        driver = new FirefoxDriver(getFirefoxOptions());
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(1));
-        driver.get(url);
-        final String currentWindowHandle = driver.getWindowHandle();
-        new Actions(driver).keyDown(Keys.CONTROL).click(driver.findElement(By.tagName("body"))).perform();
-        driver.switchTo().window(currentWindowHandle);
-        return driver;
-    }
-
-    private FirefoxOptions getFirefoxOptions() {
-        var firefoxOptions = new FirefoxOptions();
-        firefoxOptions.setHeadless(!isVisible);
-        return firefoxOptions;
     }
 
     public List<NoonDiscount> call() {
@@ -107,4 +85,15 @@ public class NoonScrapper implements Callable<List<NoonDiscount>> {
                 .collect(Collectors.toList());
     }
 
+    public static void main(String[] args) {
+        System.out.println(appendParamsToBase("https://www.noon.com/egypt-en/dailydeals-21-eg", "page=1"));
+    }
+
+    private static String appendParamsToBase(String baseurl, String... extraParams) {
+        var params = new ArrayList<String>();
+        params.addAll(paramPreferredStores);
+        params.addAll(Arrays.asList(extraParams));
+        params.add(paramItemsLimit);
+        return baseurl + "?" + String.join("&", params);
+    }
 }
