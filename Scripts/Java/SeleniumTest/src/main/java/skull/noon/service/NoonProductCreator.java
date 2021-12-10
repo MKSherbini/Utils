@@ -1,23 +1,23 @@
-package skull.Noon.service;
+package skull.noon.service;
 
 import org.openqa.selenium.*;
-import skull.Noon.model.NoonDiscount;
-import skull.Noon.page.ProductPage;
-import skull.Noon.page.SearchPage;
+import skull.noon.model.NoonProduct;
+import skull.noon.page.ProductPage;
+import skull.noon.page.SearchPage;
 
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
-public class NoonDiscountService {
+public class NoonProductCreator {
     private static final String EXPRESS_IMAGE_URL = "https://z.nooncdn.com/s/app/com/noon/images/fulfilment_express_v2-en.svg";
     private final WebDriver driver;
 
-    public NoonDiscountService(WebDriver driver) {
+    public NoonProductCreator(WebDriver driver) {
         this.driver = driver;
     }
 
-    public NoonDiscount createDiscount(WebElement discountElement) {
+    public NoonProduct createProductFromDiscount(WebElement discountElement) {
         //        document.querySelectorAll(".swiper-container-initialized img[src*=product]")
 
         var productUrl = SearchPage.getUrl(discountElement);
@@ -32,7 +32,7 @@ public class NoonDiscountService {
 
         driver.switchTo().window(tabs.get(0));
 
-        return NoonDiscount.builder()
+        return NoonProduct.builder()
                 .discount(SearchPage.getDiscount(discountElement))
                 .itemName(itemName)
                 .price(SearchPage.getPrice(discountElement))
@@ -45,7 +45,7 @@ public class NoonDiscountService {
                 .build();
     }
 
-    public NoonDiscount createDiscountIfWorth(WebElement discountElement) {
+    public NoonProduct createProductFromDiscountIfWorth(WebElement discountElement) {
         var productUrl = SearchPage.getUrl(discountElement);
         final int discount = SearchPage.getDiscount(discountElement);
         final float price = SearchPage.getPrice(discountElement);
@@ -68,7 +68,7 @@ public class NoonDiscountService {
 
         driver.switchTo().window(tabs.get(0));
 
-        return NoonDiscount.builder()
+        return NoonProduct.builder()
                 .discount(discount)
                 .itemName(itemName)
                 .price(price)
@@ -89,7 +89,7 @@ public class NoonDiscountService {
     }
 
     private boolean isValuable(int discount, float price) {
-        return NoonDiscount.builder().discount(discount).price(price).build().isValuable();
+        return NoonProduct.builder().discount(discount).price(price).build().isValuable();
     }
 
     public boolean hasTrustedSeller(WebElement webElement) {
@@ -106,6 +106,6 @@ public class NoonDiscountService {
     }
 
     private boolean hasTrustedSeller(String seller) {
-        return NoonDiscount.builder().sellerName(seller).build().hasTrustedSeller();
+        return NoonProduct.builder().sellerName(seller).build().hasTrustedSeller();
     }
 }

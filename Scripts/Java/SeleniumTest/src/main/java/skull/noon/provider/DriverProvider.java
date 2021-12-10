@@ -1,4 +1,4 @@
-package skull.Noon.provider;
+package skull.noon.provider;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.Getter;

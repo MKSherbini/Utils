@@ -1,4 +1,4 @@
-package skull.Noon.controller;
+package skull.noon.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

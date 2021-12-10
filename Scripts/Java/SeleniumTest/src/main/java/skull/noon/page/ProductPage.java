@@ -1,17 +1,14 @@
-package skull.Noon.page;
+package skull.noon.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 public class ProductPage {

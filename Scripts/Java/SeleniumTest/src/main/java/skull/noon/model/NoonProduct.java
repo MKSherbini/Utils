@@ -1,22 +1,17 @@
-package skull.Noon.model;
+package skull.noon.model;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 @Value
 @Slf4j
 @Builder
-public class NoonDiscount implements Comparable<NoonDiscount> {
+public class NoonProduct implements Comparable<NoonProduct> {
     int discount;
     String itemName;
     float price;
@@ -35,7 +30,7 @@ public class NoonDiscount implements Comparable<NoonDiscount> {
     );
 
     @Override
-    public int compareTo(NoonDiscount o) {
+    public int compareTo(NoonProduct o) {
         if (discount != o.discount)
             return discount - o.discount;
         if (oldPrice != o.oldPrice)
