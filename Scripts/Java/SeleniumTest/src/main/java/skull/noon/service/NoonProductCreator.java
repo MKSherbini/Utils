@@ -1,5 +1,6 @@
 package skull.noon.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import skull.noon.model.NoonProduct;
 import skull.noon.page.ProductPage;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
+@Slf4j
 public class NoonProductCreator {
     private static final String EXPRESS_IMAGE_URL = "https://z.nooncdn.com/s/app/com/noon/images/fulfilment_express_v2-en.svg";
     private final WebDriver driver;
@@ -17,10 +19,21 @@ public class NoonProductCreator {
         this.driver = driver;
     }
 
-    public NoonProduct createProductFromDiscount(WebElement discountElement) {
-        //        document.querySelectorAll(".swiper-container-initialized img[src*=product]")
+    public NoonProduct createProductFromSearchPage(WebElement element) {
+        final NoonProduct noonProduct = NoonProduct.builder()
+                .discount(SearchPage.getDiscount(driver, element))
+                .itemName(SearchPage.getItemName(element))
+                .price(SearchPage.getPrice(element))
+                .oldPrice(SearchPage.getOldPrice(driver, element))
+                .imageUrls(SearchPage.getImageUrls(element))
+                .url(SearchPage.getUrl(element))
+                .build();
+        log.info("createProductFromSearchPage {}", noonProduct);
+        return noonProduct;
+    }
 
-        var productUrl = SearchPage.getUrl(discountElement);
+    public NoonProduct createProduct(WebElement element) {
+        var productUrl = SearchPage.getUrl(element);
         var tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
         driver.get(productUrl);
@@ -33,22 +46,21 @@ public class NoonProductCreator {
         driver.switchTo().window(tabs.get(0));
 
         return NoonProduct.builder()
-                .discount(SearchPage.getDiscount(discountElement))
+                .discount(SearchPage.getDiscount(driver, element))
                 .itemName(itemName)
-                .price(SearchPage.getPrice(discountElement))
-                .oldPrice(SearchPage.getOldPrice(discountElement))
+                .price(SearchPage.getPrice(element))
+                .oldPrice(SearchPage.getOldPrice(driver, element))
                 .imageUrls(imageUrls)
-                .imageUrlMain(imageUrls.get(0))
                 .sellerName(sellerName)
                 .isExpress(isExpress)
                 .url(productUrl)
                 .build();
     }
 
-    public NoonProduct createProductFromDiscountIfWorth(WebElement discountElement) {
-        var productUrl = SearchPage.getUrl(discountElement);
-        final int discount = SearchPage.getDiscount(discountElement);
-        final float price = SearchPage.getPrice(discountElement);
+    public NoonProduct createProductIfWorth(WebElement element) {
+        var productUrl = SearchPage.getUrl(element);
+        final int discount = SearchPage.getDiscount(driver, element);
+        final float price = SearchPage.getPrice(element);
 
         if (!isValuable(discount, price)) return null;
 
@@ -72,18 +84,17 @@ public class NoonProductCreator {
                 .discount(discount)
                 .itemName(itemName)
                 .price(price)
-                .oldPrice(SearchPage.getOldPrice(discountElement))
+                .oldPrice(SearchPage.getOldPrice(driver, element))
                 .imageUrls(imageUrls)
-                .imageUrlMain(imageUrls.get(0))
                 .sellerName(sellerName)
                 .isExpress(isExpress)
                 .url(productUrl)
                 .build();
     }
 
-    public boolean isValuable(WebElement webElement) {
-        var discount = SearchPage.getDiscount(webElement);
-        var price = SearchPage.getPrice(webElement);
+    public boolean isValuable(WebElement element) {
+        var discount = SearchPage.getDiscount(driver, element);
+        var price = SearchPage.getPrice(element);
 
         return isValuable(discount, price);
     }

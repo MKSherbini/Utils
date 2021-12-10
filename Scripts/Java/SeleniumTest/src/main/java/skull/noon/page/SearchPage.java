@@ -1,11 +1,15 @@
 package skull.noon.page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import skull.utils.ImplicitWaitManipulator;
 import skull.utils.SafeParser;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
@@ -35,16 +39,24 @@ public class SearchPage {
         return webElement.findElement(By.cssSelector("div[title]")).getAttribute("title");
     }
 
-    public static int getDiscount(WebElement webElement) {
-        return SafeParser.parseInt(webElement.findElement(By.className("discount")).getText().split("%")[0], 0);
+    public static int getDiscount(WebDriver driver, WebElement webElement) {
+        final Optional<WebElement> discount = ImplicitWaitManipulator.findIfElementExists(driver, webElement, By.className("discount"));
+        return discount.map(element -> SafeParser.parseInt(element.getText().split("%")[0], 0)).orElse(0);
     }
 
-    public static float getOldPrice(WebElement webElement) {
-        return SafeParser.parseFloat(webElement.findElement(By.className("oldPrice")).getText().substring(4), -1);
+    public static float getOldPrice(WebDriver driver, WebElement webElement) {
+        final Optional<WebElement> discount = ImplicitWaitManipulator.findIfElementExists(driver, webElement, By.className("oldPrice"));
+        return discount.map(element -> SafeParser.parseInt(element.getText().substring(4), 0)).orElse(0);
     }
 
     public static float getPrice(WebElement webElement) {
         return SafeParser.parseFloat(webElement.findElement(By.cssSelector(".currency + strong")).getText(), -1);
     }
 
+    public static List<String> getImageUrls(WebElement element) {
+        return element.findElements(By.cssSelector("img")).stream()
+                .map(urlElement -> urlElement.getAttribute("src"))
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }

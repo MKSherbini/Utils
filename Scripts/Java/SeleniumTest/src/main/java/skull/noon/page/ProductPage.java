@@ -2,10 +2,8 @@ package skull.noon.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import skull.utils.ImplicitWaitManipulator;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,20 +22,8 @@ public class ProductPage {
     }
 
     public static boolean getExpressStatus(WebDriver driver) {
-        var maxWait = Duration.ofSeconds(5);
-        final Duration implicitWaitTimeout = driver.manage().timeouts().getImplicitWaitTimeout();
-        driver.manage().timeouts().implicitlyWait(maxWait);
-        try {
-            var explicitWait = new WebDriverWait(driver, maxWait);
-            explicitWait.until(
-                    ExpectedConditions.presenceOfElementLocated(
-                            By.cssSelector(".estimator_right img[src*=fulfilment_express]")));
-            return true;
-        } catch (org.openqa.selenium.TimeoutException e) {
-            return false;
-        } finally {
-            driver.manage().timeouts().implicitlyWait(implicitWaitTimeout);
-        }
+        return ImplicitWaitManipulator.findIfElementExists(driver,
+                By.cssSelector(".estimator_right img[src*=fulfilment_express]")).isPresent();
     }
 
     public static String getSellerName(WebDriver driver) {

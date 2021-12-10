@@ -22,8 +22,14 @@ public class NoonSearchScrapper extends PageByPageScrapper {
 
     public List<NoonProduct> scrapPage() {
         return SearchPage.getAllElements(driver).stream()
-                .map(noonProductCreator::createProductFromDiscountIfWorth)
-                .filter(Objects::nonNull)
+                .map(noonProductCreator::createProductFromSearchPage)
+                .filter(this::matchKeywords)
                 .collect(Collectors.toList());
     }
+
+    private boolean matchKeywords(NoonProduct noonProduct) {
+        var keywordsMatched = keywords.stream().filter(s -> noonProduct.getItemName().contains(s)).collect(Collectors.toList());
+        return keywordsMatched.size() == keywords.size();
+    }
+
 }

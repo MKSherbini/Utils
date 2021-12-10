@@ -18,7 +18,6 @@ public class NoonProduct implements Comparable<NoonProduct> {
     float oldPrice;
     String url;
     List<String> imageUrls;
-    String imageUrlMain;
     boolean isExpress;
 
     String sellerName;
@@ -50,4 +49,9 @@ public class NoonProduct implements Comparable<NoonProduct> {
         return trustedSellers.contains(sellerName.toLowerCase());
     }
 
+    public String getImageUrlMain() {
+        if (imageUrls.isEmpty())
+            return null;
+        return imageUrls.get(0);
+    }
 }

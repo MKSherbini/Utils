@@ -10,7 +10,8 @@ public class UrlManipulator {
     }
 
     private static final List<String> paramPreferredStores = List.of(
-            "f[partner]=p_1", "f[partner]=p_9404" // sold by noon
+            "f[partner]=p_1", "f[partner]=p_9404" // noon
+            , "f[partner]=p_24308" // Accessories Hub
     );
     private static final String PARAM_ITEMS_LIMIT = "limit=200";        // view 200 items per page (max)
 
@@ -19,6 +20,6 @@ public class UrlManipulator {
         params.addAll(paramPreferredStores);
         params.addAll(Arrays.asList(extraParams));
         params.add(PARAM_ITEMS_LIMIT);
-        return baseurl + "?" + String.join("&", params);
+        return baseurl + (baseurl.contains("?") ? "&" : "?") + String.join("&", params);
     }
 }

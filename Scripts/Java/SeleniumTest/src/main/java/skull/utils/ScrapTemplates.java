@@ -23,18 +23,20 @@ public class ScrapTemplates {
     public ScrapTemplates(WebDriver driver, FilePrinter filePrinter, String url) {
         this.driver = driver;
         this.filePrinter = filePrinter;
-        this.url = url;
+        this.url = UrlManipulator.appendParamsToBase(url);
     }
 
     public List<NoonProduct> scrapPageByPage(PageScrapperInterface<List<NoonProduct>> pageScrapper) {
+        driver.get(url);
         List<WebElement> pageLinks = driver.findElements(By.className("pageLink"));
         int pagesCount = pageLinks.size() > 1 ?
                 Integer.parseInt(pageLinks.get(pageLinks.size() - 1).getText()) : 1;
 
-        log.info("{}:scrapping {} pages", filePrinter.getLogID(), pagesCount);
+        log.info("{}:scrapping {} pages from {}", filePrinter.getLogID(), pagesCount, url);
         var allDiscounts = new ArrayList<NoonProduct>();
         for (var page = 1; page <= pagesCount; page++) {
-            driver.get(url + "&page=" + page);
+            if (page > 1)
+                driver.get(url + "&page=" + page);
             log.info("{}: Page-{}/{}", filePrinter.getLogID(), page, pagesCount);
             allDiscounts.addAll(pageScrapper.scrapPage());
             filePrinter.sortAndPrint(allDiscounts);
