@@ -32,7 +32,7 @@ public class DriverProvider {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver(getFirefoxOptions());
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(1));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(url);
         final String currentWindowHandle = driver.getWindowHandle();
         new Actions(driver).keyDown(Keys.CONTROL).click(driver.findElement(By.tagName("body"))).perform();
@@ -45,7 +45,8 @@ public class DriverProvider {
         return firefoxOptions;
     }
 
-    @PreDestroy // not called on prototype
+    @PreDestroy
+        // not called on prototype
     void cleanup() {
         log.info("DriverProvider.cleanup");
         driver.quit();

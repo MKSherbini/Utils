@@ -11,11 +11,13 @@ import java.time.Duration;
 import java.util.Optional;
 
 public class ImplicitWaitManipulator {
+
+    private static final Duration maxWait = Duration.ofSeconds(1);
+
     private ImplicitWaitManipulator() {
     }
 
     public static Optional<WebElement> findIfElementExists(WebDriver driver, By query) {
-        var maxWait = Duration.ofSeconds(5);
         final Duration implicitWaitTimeout = driver.manage().timeouts().getImplicitWaitTimeout();
         driver.manage().timeouts().implicitlyWait(maxWait);
         try {
@@ -31,13 +33,14 @@ public class ImplicitWaitManipulator {
     }
 
     public static Optional<WebElement> findIfElementExists(WebDriver driver, WebElement root, By query) {
-        var maxWait = Duration.ofSeconds(5);
         final Duration implicitWaitTimeout = driver.manage().timeouts().getImplicitWaitTimeout();
         driver.manage().timeouts().implicitlyWait(maxWait);
         try {
-            var found = root.findElement(query);
+            var explicitWait = new WebDriverWait(driver, maxWait);
+            var found = explicitWait.until(x -> root.findElement(query));
+//            var found = root.findElement(query);
             return Optional.of(found);
-        } catch (NoSuchElementException e) {
+        } catch (org.openqa.selenium.TimeoutException e) {
             return Optional.empty();
         } finally {
             driver.manage().timeouts().implicitlyWait(implicitWaitTimeout);
