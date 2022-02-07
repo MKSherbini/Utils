@@ -20,10 +20,10 @@
     )
 
     function getCases() {
-        var x = $("pre strong");
-        var cases = Array(x.length / 2);
-        for (let i = 0; i < x.length; i += 2) {
-            cases[i / 2] = new TestCase(x[i].nextSibling.textContent.trim(), x[i + 1].nextSibling.textContent.trim());
+        let filter = $("pre strong").filter((i, e) => e.innerText.indexOf("Input") !== -1 || e.innerText.indexOf("Output") !== -1);
+        let cases = Array(filter.length / 2);
+        for (let i = 0; i < filter.length; i += 2) {
+            cases[i / 2] = new TestCase(filter[i].nextSibling.textContent.trim(), filter[i + 1].nextSibling.textContent.trim());
             console.log(cases[i / 2]);
         }
         return cases;
