@@ -16,8 +16,52 @@
     let $ = window.jQuery;
 
     setTimeout(
-        () => createBtn("Generate CPP Class", CreateTemplate), 2000
+        () => {
+            createBtn("Generate CPP Class", CreateTemplate);
+            createBtn("Auto Resubmit", runAutoResubmit);
+        }, 2000
     )
+
+    function runAutoResubmit() {
+        AutoResubmit.idx = void 0;
+        AutoResubmit.runtime = 99999999;
+        AutoResubmit.runtimePercent = 0;
+        AutoResubmit.memory = 99999999;
+        AutoResubmit.memoryPercent = 0;
+        AutoResubmit();
+    }
+
+    function AutoResubmit() {
+        if (AutoResubmit.idx === void 0)
+            AutoResubmit.idx = 1;
+        else
+            AutoResubmit.idx++;
+
+        $("button[data-cy='submit-code-btn']").click();
+
+        let refreshIntervalId = setInterval(
+            () => {
+                let values = $(".data__HC-i").map((i, x) => x.innerText);
+                if (values.length < 4) return;
+                console.log("submition: " + AutoResubmit.idx);
+
+                values[0] = values[0].substr(0, values[0].length - 3);
+                values[1] = values[1].substr(0, values[1].length - 1);
+                values[2] = values[2].substr(0, values[2].length - 3);
+                values[3] = values[3].substr(0, values[3].length - 1);
+                AutoResubmit.runtime = Math.min(AutoResubmit.runtime || 99999999, values[0]);
+                AutoResubmit.runtimePercent = Math.max(AutoResubmit.runtimePercent || 0, values[1]);
+                AutoResubmit.memory = Math.min(AutoResubmit.memory || 99999999, values[2]);
+                AutoResubmit.memoryPercent = Math.max(AutoResubmit.memoryPercent || 0, values[3]);
+
+                clearInterval(refreshIntervalId);
+
+                if (AutoResubmit.idx < 12)
+                    setTimeout(AutoResubmit, 6000);
+                else
+                    console.log(`${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`);
+            }, 1000);
+    }
 
     function getCases() {
         let filter = $("pre strong").filter((i, e) => e.innerText.indexOf("Input") !== -1 || e.innerText.indexOf("Output") !== -1);
