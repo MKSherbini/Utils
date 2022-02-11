@@ -56,10 +56,14 @@
 
                 clearInterval(refreshIntervalId);
 
-                if (AutoResubmit.idx < 12)
+                if (AutoResubmit.idx < 12) {
+
                     setTimeout(AutoResubmit, 6000);
-                else
-                    console.log(`${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`);
+                } else {
+                    let content = `${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`;
+                    console.log(content);
+                    navigator.clipboard.writeText(content);
+                }
             }, 1000);
     }
 
@@ -68,7 +72,8 @@
         let cases = Array(filter.length / 2);
         for (let i = 0; i < filter.length; i += 2) {
             cases[i / 2] = new TestCase(filter[i].nextSibling.textContent.trim(), filter[i + 1].nextSibling.textContent.trim());
-            console.log(cases[i / 2]);
+            console.log(`case[${i / 2}]= `);
+            console.log(cases[i / 2])
         }
         return cases;
     }
@@ -84,7 +89,9 @@
         let cases = getCases();
         let name = getClassName();
 
-        console.log(fillTemplate(name, cases));
+        let content = fillTemplate(name, cases);
+        console.log(content);
+        navigator.clipboard.writeText(content);
     }
 
 
@@ -117,25 +124,24 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
     }
 
     function TestCase(input, output) {
-        this.output = new Parameter(output);
+        this.output = new OutputParam(output);
+        console.log("output param: ");
+        console.log(output);
 
         let splits = input.split(", ");
         this.inputs = Array(splits.length);
         for (let i = 0; i < splits.length; i++) {
-            this.inputs[i] = new Parameter(splits[i]);
+            console.log("input split: ");
+            console.log(splits[i]);
+            this.inputs[i] = new InputParam(splits[i]);
+            console.log("input param: ");
+            console.log(this.inputs[i]);
         }
     }
 
-    function Parameter(value) {
-        let splits = /^([a-zA-Z]*)(?: = )?(.*)/.exec(value);
-        this.name = splits[1]
-        this.value = splits[2]
-            .replace("[", "{")
-            .replace("]", "}");
-
-        let regexRes = /^({*)(.{1,2})/.exec(this.value);
-        let level = regexRes[1].length;
-        let sample = regexRes[2];
+    function findType(sample) {
+        console.log("sample: ")
+        console.log(sample)
         let type = "char";
         if (/^-?\d+/.test(sample))
             type = "int";
@@ -143,6 +149,35 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
             type = "bool";
         else if (/^([a-zA-Z]{2,}),*/.test(sample))
             type = "string";
+        console.log(type)
+        return type;
+    }
+
+    function InputParam(value) {
+        let splits = /^([a-zA-Z]*)(?: = )?(.*)/.exec(value);
+        console.log(splits)
+        this.name = splits[1]
+        this.value = splits[2]
+            .replaceAll("[", "{")
+            .replaceAll("]", "}");
+
+        let regexRes = /^({*)(.{1,2})/.exec(this.value);
+        console.log(regexRes)
+        let level = regexRes[1].length;
+        let type = findType(regexRes[2]);
+
+        this.type = getTypeMultiLevel(level, type);
+    }
+
+    function OutputParam(value) {
+        this.value = value
+            .replaceAll("[", "{")
+            .replaceAll("]", "}");
+
+        let regexRes = /^({*)(\w+)/.exec(this.value);
+        console.log(regexRes)
+        let level = regexRes[1].length;
+        let type = findType(regexRes[2]);
 
         this.type = getTypeMultiLevel(level, type);
     }
