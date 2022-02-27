@@ -56,12 +56,11 @@
 
                 clearInterval(refreshIntervalId);
 
+                let content = `${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`;
+                console.log(content);
                 if (AutoResubmit.idx < 12) {
-
                     setTimeout(AutoResubmit, 6000);
                 } else {
-                    let content = `${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`;
-                    console.log(content);
                     navigator.clipboard.writeText(content);
                 }
             }, 1000);
@@ -91,7 +90,10 @@
 
         let content = fillTemplate(name, cases);
         console.log(content);
-        navigator.clipboard.writeText(content);
+        navigator.clipboard.writeText(content).then(() =>
+            setTimeout(() =>
+                navigator.clipboard.writeText(name), 500)
+        )
     }
 
 
@@ -153,6 +155,15 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
         return type;
     }
 
+    function guessType(value) {
+        let regexRes = /^({*)([^,}]{1,2})/.exec(value);
+        console.log(regexRes)
+        let level = regexRes[1].length;
+        let type = findType(regexRes[2]);
+
+        return getTypeMultiLevel(level, type);
+    }
+
     function InputParam(value) {
         let splits = /^([a-zA-Z]*)(?: = )?(.*)/.exec(value);
         console.log(splits)
@@ -160,13 +171,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
         this.value = splits[2]
             .replaceAll("[", "{")
             .replaceAll("]", "}");
-
-        let regexRes = /^({*)(.{1,2})/.exec(this.value);
-        console.log(regexRes)
-        let level = regexRes[1].length;
-        let type = findType(regexRes[2]);
-
-        this.type = getTypeMultiLevel(level, type);
+        this.type = guessType(this.value);
     }
 
     function OutputParam(value) {
@@ -174,12 +179,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
             .replaceAll("[", "{")
             .replaceAll("]", "}");
 
-        let regexRes = /^({*)(\w+)/.exec(this.value);
-        console.log(regexRes)
-        let level = regexRes[1].length;
-        let type = findType(regexRes[2]);
-
-        this.type = getTypeMultiLevel(level, type);
+        this.type = guessType(this.value);
     }
 
     function getTypeMultiLevel(level, type) {
