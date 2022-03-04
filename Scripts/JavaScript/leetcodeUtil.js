@@ -149,14 +149,14 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
             type = "int";
         else if (/^(true|false)/.test(sample))
             type = "bool";
-        else if (/^([a-zA-Z]{2,}),*/.test(sample))
+        else if (/^"/.test(sample))
             type = "string";
         console.log(type)
         return type;
     }
 
     function guessType(value) {
-        let regexRes = /^({*)([^,}]{1,2})/.exec(value);
+        let regexRes = /^({*)([^,}]{1,5})/.exec(value);
         console.log(regexRes)
         let level = regexRes[1].length;
         let type = findType(regexRes[2]);
