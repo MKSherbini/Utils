@@ -66,13 +66,16 @@
             }, 1000);
     }
 
+    function targetCaseFromFilter(filter) {
+        return filter.nextSibling.textContent.replaceAll(/\n */g, '').trim();
+    }
+
     function getCases() {
         let filter = $("pre strong").filter((i, e) => e.innerText.indexOf("Input") !== -1 || e.innerText.indexOf("Output") !== -1);
         let cases = Array(filter.length / 2);
         for (let i = 0; i < filter.length; i += 2) {
-            cases[i / 2] = new TestCase(filter[i].nextSibling.textContent.trim(), filter[i + 1].nextSibling.textContent.trim());
-            console.log(`case[${i / 2}]= `);
-            console.log(cases[i / 2])
+            cases[i / 2] = new TestCase(targetCaseFromFilter(filter[i]), targetCaseFromFilter(filter[i + 1]));
+            console.log(`case[${i / 2}]= ${JSON.stringify(cases[i / 2])}`);
         }
         return cases;
     }
@@ -95,7 +98,6 @@
                 navigator.clipboard.writeText(name), 500)
         )
     }
-
 
     function createCPPCase(cases, idx) {
         return `vector<${cases[0].inputs[idx].type}> input${idx + 1} = {
@@ -127,59 +129,62 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
 
     function TestCase(input, output) {
         this.output = new OutputParam(output);
-        console.log("output param: ");
-        console.log(output);
+        console.log(`TestCase.output: ${output}`)
+        console.log(`TestCase.outputParam: ${JSON.stringify(this.output)}`)
 
         let splits = input.split(", ");
         this.inputs = Array(splits.length);
         for (let i = 0; i < splits.length; i++) {
-            console.log("input split: ");
-            console.log(splits[i]);
+            console.log(`TestCase.input: ${splits[i]}`)
             this.inputs[i] = new InputParam(splits[i]);
-            console.log("input param: ");
-            console.log(this.inputs[i]);
+            console.log(`TestCase.inputParam: ${JSON.stringify(this.inputs[i])}`)
         }
     }
 
-    function findType(sample) {
-        console.log("sample: ")
-        console.log(sample)
+    function guessLevelType(sample) {
         let type = "char";
         if (/^-?\d+/.test(sample))
             type = "int";
         else if (/^(true|false)/.test(sample))
             type = "bool";
-        else if (/^"/.test(sample))
+        else if (/^".{2,}"$/.test(sample))
             type = "string";
-        console.log(type)
+        console.log(`guessLevelType.sample: ${sample} : ${type}`)
         return type;
     }
 
     function guessType(value) {
-        let regexRes = /^({*)([^,}]{1,5})/.exec(value);
-        console.log(regexRes)
-        let level = regexRes[1].length;
-        let type = findType(regexRes[2]);
+        let levelTypeRegexRes = /^({*)([^,}]{1,5})/.exec(value);
+        console.log(`guessType.levelTypeRegexRes: ${levelTypeRegexRes}`)
+
+        let level = levelTypeRegexRes[1].length;
+        let type = guessLevelType(levelTypeRegexRes[2]);
 
         return getTypeMultiLevel(level, type);
     }
 
     function InputParam(value) {
         let splits = /^([a-zA-Z]*)(?: = )?(.*)/.exec(value);
-        console.log(splits)
+        console.log(`InputParam.splits: ${splits}`)
+
         this.name = splits[1]
         this.value = splits[2]
             .replaceAll("[", "{")
             .replaceAll("]", "}");
         this.type = guessType(this.value);
+
+        if (this.type.includes("char"))
+            this.value = this.value.replaceAll('"', "'");
     }
 
     function OutputParam(value) {
         this.value = value
             .replaceAll("[", "{")
             .replaceAll("]", "}");
-
         this.type = guessType(this.value);
+
+        if (this.type.includes("char"))
+            this.value = this.value.replaceAll('"', "'");
     }
 
     function getTypeMultiLevel(level, type) {
