@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         AnirenaAllMagnets
+// @name         DownloadAllMagnets
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.anirena.com/*
+// @include      https://www.anirena.com*
+// @include      https://nyaa.si*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=anirena.com
 // @grant        none
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
@@ -17,19 +18,28 @@
     setTimeout(
         () => {
             createBtn("Download All", () => {
-                $("img[src='./styles/tracker/imageset/magnet.png']").click();
+                $("a[href*=magnet]").each((i, e) => e.click())
             });
-        }, 100
+        }, 200
     )
+
+    let sitesToParentMap = {
+        'www.anirena.com': () => {
+            return $("#tabs ul")[0];
+        },
+        'nyaa.si': () => {
+            return $(".navbar-nav")[0];
+        }
+    };
 
     function createBtn(name, onclick) {
         try {
-            let parent = $("#tabs ul");
+            let parent = sitesToParentMap[window.location.hostname]();
             let div = document.createElement('li');
             div.onclick = onclick;
             let a = document.createElement('a');
             a.innerText = name;
-            a.href = "#"
+            a.href = "#";
             div.appendChild(a);
             parent.append(div);
             console.log(div);
