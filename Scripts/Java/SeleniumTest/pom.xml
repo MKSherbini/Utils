@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.example</groupId>
+    <groupId>com.mksherbini</groupId>
     <artifactId>SeleniumTest</artifactId>
     <version>1.0-SNAPSHOT</version>
 
