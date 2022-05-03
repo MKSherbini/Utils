@@ -147,7 +147,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
             type = "int";
         else if (/^(true|false)/.test(sample))
             type = "bool";
-        else if (/^".{2,}"$/.test(sample))
+        else if (/^".{2,}"?$/.test(sample))
             type = "string";
         console.log(`guessLevelType.sample: ${sample} : ${type}`)
         return type;
@@ -164,7 +164,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
     }
 
     function InputParam(value) {
-        let splits = /^([a-zA-Z]*)(?: = )?(.*)/.exec(value);
+        let splits = /^([\w]+)(?: = )?(.*)/.exec(value);
         console.log(`InputParam.splits: ${splits}`)
 
         this.name = splits[1]
