@@ -49,10 +49,10 @@
                 values[1] = values[1].substr(0, values[1].length - 1);
                 values[2] = values[2].substr(0, values[2].length - 3);
                 values[3] = values[3].substr(0, values[3].length - 1);
-                AutoResubmit.runtime = Math.min(AutoResubmit.runtime || 99999999, values[0]);
-                AutoResubmit.runtimePercent = Math.max(AutoResubmit.runtimePercent || 0, values[1]);
-                AutoResubmit.memory = Math.min(AutoResubmit.memory || 99999999, values[2]);
-                AutoResubmit.memoryPercent = Math.max(AutoResubmit.memoryPercent || 0, values[3]);
+                AutoResubmit.runtime = Math.min(AutoResubmit.runtime === void 0 ? 99999999 : AutoResubmit.runtime, values[0]);
+                AutoResubmit.runtimePercent = Math.max(AutoResubmit.runtimePercent === void 0 ? 0 : AutoResubmit.runtimePercent, values[1]);
+                AutoResubmit.memory = Math.min(AutoResubmit.memory === void 0 ? 99999999 : AutoResubmit.memory, values[2]);
+                AutoResubmit.memoryPercent = Math.max(AutoResubmit.memoryPercent === void 0 ? 0 : AutoResubmit.memoryPercent, values[3]);
 
                 clearInterval(refreshIntervalId);
 
@@ -147,7 +147,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
             type = "int";
         else if (/^(true|false)/.test(sample))
             type = "bool";
-        else if (/^".{2,}"?$/.test(sample))
+        else if (/^"[^"]{2,}"?$/.test(sample))
             type = "string";
         console.log(`guessLevelType.sample: ${sample} : ${type}`)
         return type;
