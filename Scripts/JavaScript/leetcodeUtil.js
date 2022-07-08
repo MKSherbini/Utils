@@ -132,7 +132,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
         console.log(`TestCase.output: ${output}`)
         console.log(`TestCase.outputParam: ${JSON.stringify(this.output)}`)
 
-        let splits = input.split(", ");
+        let splits = input.split(/, (?=\w)/);
         this.inputs = Array(splits.length);
         for (let i = 0; i < splits.length; i++) {
             console.log(`TestCase.input: ${splits[i]}`)
