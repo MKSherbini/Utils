@@ -81,8 +81,10 @@
     }
 
     function getClassName() {
-        return /problems\/(.*)\//.exec(window.location.href)[1].split('-')
-            .map(s => s[0].toUpperCase() + s.substr(1))
+        let splits = /problems\/(.*)\//.exec(window.location.href)[1].split('-');
+        if (splits[splits.length - 1].replace(/[iv]+/, "") === "")
+            splits[splits.length - 1] = splits[splits.length - 1].toUpperCase();
+        return splits.map(s => s[0].toUpperCase() + s.substr(1))
             .join("");
     }
 
