@@ -172,7 +172,8 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
         this.name = splits[1]
         this.value = splits[2]
             .replaceAll("[", "{")
-            .replaceAll("]", "}");
+            .replaceAll("]", "}")
+            .replaceAll("null", "NULL");
         this.type = guessType(this.value);
 
         if (this.type.includes("char"))
@@ -182,7 +183,8 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
     function OutputParam(value) {
         this.value = value
             .replaceAll("[", "{")
-            .replaceAll("]", "}");
+            .replaceAll("]", "}")
+            .replaceAll("null", "NULL");
         this.type = guessType(this.value);
 
         if (this.type.includes("char"))
