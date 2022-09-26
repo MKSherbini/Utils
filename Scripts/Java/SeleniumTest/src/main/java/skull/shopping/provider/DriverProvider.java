@@ -1,9 +1,10 @@
-package skull.noon.provider;
+package skull.shopping.provider;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -25,7 +26,7 @@ public class DriverProvider {
     private boolean isVisible;
     @Getter
     private WebDriver driver;
-    private final String url = "https://www.noon.com/egypt-en/";
+    private final String url = "https://www.google.com/";
 
     @PostConstruct
     public void init() {
@@ -35,7 +36,9 @@ public class DriverProvider {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(url);
         final String currentWindowHandle = driver.getWindowHandle();
-        new Actions(driver).keyDown(Keys.CONTROL).click(driver.findElement(By.tagName("body"))).perform();
+//        new Actions(driver).keyDown(Keys.CONTROL).click(driver.findElement(By.tagName("body"))).perform();
+//        driver.findElement(By.tagName("body")).sendKeys(Keys.chord(Keys.CONTROL, "t"));
+        ((JavascriptExecutor) driver).executeScript("window.open('about:blank','_blank');");
         driver.switchTo().window(currentWindowHandle);
     }
 

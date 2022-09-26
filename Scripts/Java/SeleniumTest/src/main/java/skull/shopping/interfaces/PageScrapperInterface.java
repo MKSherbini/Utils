@@ -1,4 +1,4 @@
-package skull.noon.interfaces;
+package skull.shopping.interfaces;
 
 @FunctionalInterface
 public interface PageScrapperInterface<T> {

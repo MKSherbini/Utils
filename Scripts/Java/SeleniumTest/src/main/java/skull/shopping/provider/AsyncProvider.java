@@ -1,4 +1,4 @@
-package skull.noon.provider;
+package skull.shopping.provider;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import skull.noon.output.FilePrinter;
-import skull.noon.service.NoonDiscountsScrapper;
-import skull.noon.service.NoonSearchScrapper;
+import skull.shopping.service.scrappers.impl.AmazonShippingScrapper;
+import skull.shopping.service.scrappers.impl.NoonDiscountsScrapper;
+import skull.shopping.service.scrappers.impl.NoonSearchScrapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +30,7 @@ public class AsyncProvider {
     public void submitDiscountsScrapJob(String url, String fileName) {
         final WebDriver driver = driverProvider.getObject().getDriver();
         log.info("submitDiscountsScrapJob with driver: {}", driver.hashCode());
-        new NoonDiscountsScrapper(driver, new FilePrinter(outputDir + "\\NoonDiscounts\\" + fileName, fileName), url).call();
+        new NoonDiscountsScrapper(driver, url, outputDir + "\\NoonDiscounts\\" + fileName, fileName).call();
     }
 
     @Async
@@ -39,10 +39,17 @@ public class AsyncProvider {
     }
 
     @Async
+    public void submitAmazonShippingScrapJob(String url, String fileName) {
+        log.info(fileName);
+        final WebDriver driver = driverProvider.getObject().getDriver();
+        new AmazonShippingScrapper(driver, url, outputDir + "\\AmazonJP\\" + fileName, fileName).call();
+    }
+
+    @Async
     public void submitSearchScrapJob(String url, String fileName, List<String> keywords) {
         final WebDriver driver = driverProvider.getObject().getDriver();
         log.info("submitSearchScrapJob with driver: {}", driver.hashCode());
-        new NoonSearchScrapper(driver, new FilePrinter(outputDir + "\\NoonSearch\\" + fileName, fileName), url, keywords).call();
+        new NoonSearchScrapper(driver, url, outputDir + "\\NoonDiscounts\\" + fileName, fileName, keywords).call();
     }
 
 

@@ -1,22 +1,17 @@
-package skull.noon.output;
+package skull.shopping.service.output;
 
-import skull.noon.model.NoonProduct;
+import skull.shopping.model.AmazonProduct;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NoonRenderer {
-    private NoonRenderer() {
+public class AmazonProductPrinter extends ProductPrinter<AmazonProduct> {
+    public AmazonProductPrinter(String filePath, String logID) {
+        super(filePath, logID);
     }
 
-    public static void printToFile(String location, String data) throws IOException {
-        Files.write(Path.of(location), data.getBytes());
-    }
-
-    public static String renderHtmlOutput(List<NoonProduct> noonProducts) {
+    @Override
+    public String renderHtmlOutput(List<AmazonProduct> noonProducts) {
         return String.format("  <!doctype html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -41,7 +36,7 @@ public class NoonRenderer {
                 "</html>", renderTable(noonProducts));
     }
 
-    private static String renderTable(List<NoonProduct> noonProducts) {
+    private static String renderTable(List<AmazonProduct> noonProducts) {
         return String.format("<table class=\"table table-striped table-dark table-hover\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
@@ -55,16 +50,16 @@ public class NoonRenderer {
                 "  <tbody>\n" +
                 "%s" +
                 "  </tbody>\n" +
-                "</table>", noonProducts.stream().map(NoonRenderer::renderRow).collect(Collectors.joining()));
+                "</table>", noonProducts.stream().map(AmazonProductPrinter::renderRow).collect(Collectors.joining()));
     }
 
-    private static String renderRow(NoonProduct discount) {
+    private static String renderRow(AmazonProduct discount) {
         return "<tr>\n" +
                 "      <th scope=\"row\">" + discount.getDiscount() + "%</th>\n" +
                 "      <td> <a href=\"" + discount.getUrl() + "\">" + discount.getItemName() + "</a></td>\n" +
                 "      <td>" + discount.getPrice() + "</td>\n" +
                 "      <td>" + discount.getOldPrice() + "</td>\n" +
-                "      <td><img src=\"" + discount.getImageUrlMain() + "\" width=100px></td>\n" +
+                "      <td><img src=\"" + discount.getImageUrl() + "\" width=100px></td>\n" +
                 "  </tr>";
     }
 }

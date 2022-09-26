@@ -1,4 +1,4 @@
-package skull.noon.page;
+package skull.shopping.page.noon;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,8 +6,6 @@ import skull.utils.ImplicitWaitManipulator;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.lang.Integer.parseInt;
 
 public class ProductPage {
 

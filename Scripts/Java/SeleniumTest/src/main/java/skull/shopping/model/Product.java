@@ -1,35 +1,29 @@
-package skull.noon.model;
+package skull.shopping.model;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import static java.lang.Integer.parseInt;
-
-@Value
 @Slf4j
-@Builder
-public class NoonProduct implements Comparable<NoonProduct> {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public abstract class Product implements Comparable<Product> {
+    boolean isSponsored;
+    boolean isFullfilled;
     int discount;
-    String itemName;
+    int shippingPrice;
     float price;
     float oldPrice;
+    String itemName;
     String url;
+    String imageUrl;
     List<String> imageUrls;
-    boolean isExpress;
-
     String sellerName;
-//   float sellerRate;
-//   float productRate;
-
-    private static final List<String> trustedSellers = List.of("noon"
-//            , "more shopping"
-    );
 
     @Override
-    public int compareTo(NoonProduct o) {
+    public int compareTo(Product o) {
         if (discount != o.discount)
             return discount - o.discount;
         if (oldPrice != o.oldPrice)
@@ -45,13 +39,8 @@ public class NoonProduct implements Comparable<NoonProduct> {
         return (discount >= 10 && price >= 350);
     }
 
-    public boolean hasTrustedSeller() {
-        return trustedSellers.contains(sellerName.toLowerCase());
+    public boolean goodShipping() {
+        return (shippingPrice <= 1000);
     }
 
-    public String getImageUrlMain() {
-        if (imageUrls.isEmpty())
-            return null;
-        return imageUrls.get(0);
-    }
 }

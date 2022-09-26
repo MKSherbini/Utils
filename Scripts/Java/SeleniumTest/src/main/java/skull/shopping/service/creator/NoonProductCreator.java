@@ -1,17 +1,17 @@
-package skull.noon.service;
+package skull.shopping.service.creator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
-import skull.noon.model.NoonProduct;
-import skull.noon.page.ProductPage;
-import skull.noon.page.SearchPage;
+import skull.shopping.model.NoonProduct;
+import skull.shopping.page.noon.ProductPage;
+import skull.shopping.page.noon.SearchPage;
 
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
 @Slf4j
-public class NoonProductCreator {
+public class NoonProductCreator implements ProductCreator<NoonProduct> {
     private static final String EXPRESS_IMAGE_URL = "https://z.nooncdn.com/s/app/com/noon/images/fulfilment_express_v2-en.svg";
     private final WebDriver driver;
 
@@ -19,6 +19,7 @@ public class NoonProductCreator {
         this.driver = driver;
     }
 
+    @Override
     public NoonProduct createProductFromSearchPage(WebElement element) {
         final NoonProduct noonProduct = NoonProduct.builder()
                 .discount(SearchPage.getDiscount(driver, element))
@@ -32,6 +33,7 @@ public class NoonProductCreator {
         return noonProduct;
     }
 
+    @Override
     public NoonProduct createProduct(WebElement element) {
         var productUrl = SearchPage.getUrl(element);
         var tabs = new ArrayList<>(driver.getWindowHandles());
@@ -52,11 +54,12 @@ public class NoonProductCreator {
                 .oldPrice(SearchPage.getOldPrice(driver, element))
                 .imageUrls(imageUrls)
                 .sellerName(sellerName)
-                .isExpress(isExpress)
+                .isFullfilled(isExpress)
                 .url(productUrl)
                 .build();
     }
 
+    @Override
     public NoonProduct createProductIfWorth(WebElement element) {
         var productUrl = SearchPage.getUrl(element);
         final int discount = SearchPage.getDiscount(driver, element);
@@ -87,12 +90,12 @@ public class NoonProductCreator {
                 .oldPrice(SearchPage.getOldPrice(driver, element))
                 .imageUrls(imageUrls)
                 .sellerName(sellerName)
-                .isExpress(isExpress)
+                .isFullfilled(isExpress)
                 .url(productUrl)
                 .build();
     }
 
-    public boolean isValuable(WebElement element) {
+    private boolean isValuable(WebElement element) {
         var discount = SearchPage.getDiscount(driver, element);
         var price = SearchPage.getPrice(element);
 
