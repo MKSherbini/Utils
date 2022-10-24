@@ -20,7 +20,8 @@ public abstract class AmazonPageByPageScrapper extends PageByPageScrapper<Amazon
 
     @Override
     int getPages() {
-        final String text = driver.findElement(By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::span[1]")).getText();
-        return SafeParser.parseInt(text, 1); // why 10?
+        final var n1 = SafeParser.parseInt(driver.findElement(By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::span[1]")).getText(), 1);
+        final var n2 = SafeParser.parseInt(driver.findElement(By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::a[1]")).getText(), 1);
+        return Math.max(n1, n2); // why 10?
     }
 }

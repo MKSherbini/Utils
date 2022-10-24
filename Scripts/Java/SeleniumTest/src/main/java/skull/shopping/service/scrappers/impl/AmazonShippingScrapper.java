@@ -22,7 +22,7 @@ public class AmazonShippingScrapper extends AmazonPageByPageScrapper {
         return SearchPage.getAllElements(driver).stream()
                 .map(creator::createProduct)
                 .filter(Objects::nonNull)
-                .filter(Product::goodShipping)
+                .filter(AmazonProduct::isValuable)
                 .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package skull.shopping.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public abstract class Product implements Comparable<Product> {
     boolean isSponsored;
     boolean isFullfilled;
