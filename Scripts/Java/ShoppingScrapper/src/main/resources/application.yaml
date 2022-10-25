@@ -1,0 +1,12 @@
+invoker:
+  appRequests:
+    - app: AMAZON
+      url: https://www.amazon.co.jp/s?k=glasses
+      file: smt.html
+
+scrapper:
+  browser:
+    visible: false
+  outputDir: D:/_Temp/Shopping
+  maxShippingPrice: 1000
+  minDiscount: 20
