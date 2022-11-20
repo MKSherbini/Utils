@@ -26,6 +26,9 @@ public abstract class Product implements Comparable<Product> {
 
     public static int maxShippingPrice;
     public static int minDiscount;
+    public static SearchRelation searchRelation;
+    public static int minPrice;
+    public static int maxPrice;
 
     @Override
     public int compareTo(Product o) {
@@ -43,7 +46,21 @@ public abstract class Product implements Comparable<Product> {
     }
 
     public boolean isValuable() {
-        return (discount >= minDiscount || shippingPrice <= maxShippingPrice);
+        if (minPrice != -1 && price < minPrice) return false;
+        if (maxPrice != -1 && price > maxPrice) return false;
+
+        switch (searchRelation) {
+            case EITHER:
+                return (discount >= minDiscount || shippingPrice <= maxShippingPrice);
+            case BOTH:
+                return (discount >= minDiscount && shippingPrice <= maxShippingPrice);
+            case DISCOUNT:
+                return (discount >= minDiscount);
+            case SHIPPING:
+                return (shippingPrice <= maxShippingPrice);
+            default:
+                return false;
+        }
     }
 
     public boolean goodShipping() {

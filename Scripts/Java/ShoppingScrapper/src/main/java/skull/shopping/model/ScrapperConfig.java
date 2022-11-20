@@ -18,6 +18,10 @@ import java.util.List;
 public class ScrapperConfig {
     private int maxShippingPrice;
     private int minDiscount;
+    private SearchRelation searchRelation;
+    private int minPrice;
+    private int maxPrice;
+
     private String outputDir;
 
     @PostConstruct
@@ -26,5 +30,8 @@ public class ScrapperConfig {
 
         Product.maxShippingPrice = maxShippingPrice;
         Product.minDiscount = minDiscount;
+        Product.searchRelation = searchRelation;
+        Product.minPrice = minPrice;
+        Product.maxPrice = maxPrice;
     }
 }

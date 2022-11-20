@@ -8,6 +8,7 @@ import skull.shopping.utils.SafeParser;
 import java.util.List;
 
 public class SearchPage {
+    static final String CURRENCIES_PATTERN = "¥|EGP\\u00a0";
 
     private SearchPage() {
     }
@@ -37,8 +38,9 @@ public class SearchPage {
     }
 
     private static float parsePrices(WebElement webElement, int index) {
-        final List<WebElement> prices = webElement.findElements(By.cssSelector(".a-price"));
+        final List<WebElement> prices = webElement.findElements(By.cssSelector(".a-price .a-offscreen"));
         if (prices.size() < index + 1) return -1;
-        return SafeParser.parseFloat(prices.get(index).getText().substring(1), -1);
+        String priceText = prices.get(index).getAttribute("innerText").replaceAll(CURRENCIES_PATTERN, "");
+        return SafeParser.parseFloat(priceText, -1);
     }
 }

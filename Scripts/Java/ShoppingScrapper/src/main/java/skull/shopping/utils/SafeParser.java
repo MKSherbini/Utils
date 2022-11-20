@@ -17,6 +17,7 @@ public class SafeParser {
     }
 
     public static float parseFloat(String value, float defaultValue) {
+        log.info("{" + value + "}");
         value = value.replace(",", "");
         float res = defaultValue;
         try {
