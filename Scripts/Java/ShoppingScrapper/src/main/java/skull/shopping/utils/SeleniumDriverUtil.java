@@ -1,20 +1,17 @@
 package skull.shopping.utils;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Optional;
 
-public class ImplicitWaitManipulator {
+public class SeleniumDriverUtil {
 
     private static final Duration maxWait = Duration.ofSeconds(1);
 
-    private ImplicitWaitManipulator() {
+    private SeleniumDriverUtil() {
     }
 
     public static Optional<WebElement> findIfElementExists(WebDriver driver, By query) {
@@ -32,7 +29,8 @@ public class ImplicitWaitManipulator {
         }
     }
 
-    public static Optional<WebElement> findIfElementExists(WebDriver driver, WebElement root, By query) {
+    public static Optional<WebElement> findIfElementExists(WebElement root, By query) {
+        WebDriver driver = ((WrapsDriver) root).getWrappedDriver();
         final Duration implicitWaitTimeout = driver.manage().timeouts().getImplicitWaitTimeout();
         driver.manage().timeouts().implicitlyWait(maxWait);
         try {
@@ -45,5 +43,10 @@ public class ImplicitWaitManipulator {
         } finally {
             driver.manage().timeouts().implicitlyWait(implicitWaitTimeout);
         }
+    }
+
+    public static WebElement findParent(WebElement el) {
+        return (WebElement) ((JavascriptExecutor) ((WrapsDriver) el).getWrappedDriver()).executeScript(
+                "return arguments[0].parentNode;", el);
     }
 }

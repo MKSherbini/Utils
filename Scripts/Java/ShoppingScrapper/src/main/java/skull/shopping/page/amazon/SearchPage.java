@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import skull.shopping.utils.SafeParser;
+import skull.shopping.utils.SeleniumDriverUtil;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class SearchPage {
     private static float parsePrices(WebElement webElement, int index) {
         final List<WebElement> prices = webElement.findElements(By.cssSelector(".a-price .a-offscreen"));
         if (prices.size() < index + 1) return -1;
+        if (index == 1 && SeleniumDriverUtil.findParent(prices.get(1)).getAttribute("data-a-strike") == null) return -1;
+
         String priceText = prices.get(index).getAttribute("innerText").replaceAll(CURRENCIES_PATTERN, "");
         return SafeParser.parseFloat(priceText, -1);
     }

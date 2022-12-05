@@ -1,8 +1,9 @@
 invoker:
+#  &language=en_AE
   appRequests:
     - app: AMAZON
-      url: https://www.amazon.eg/s?k=mechanical+keyboard&crid=1H8R5QNS8VABR&language=en_AE&sprefix=%2Caps%2C131&ref=nb_sb_ss_recent_1_0_recent
-      file: smt.html
+      url: https://www.amazon.eg/s?i=fashion&bbn=56374766031&language=en_AE&rh=n%3A18018165031%2Cn%3A56374766031%2Cn%3A21845147031%2Cp_6%3AA1ZVRGNO5AYLOV&s=price-desc-rank&dc&language=en&pf_rd_i=52295425031&pf_rd_m=A1ZVRGNO5AYLOV&pf_rd_p=b390d9e5-dd8e-4bb5-a3e5-512984b16602&pf_rd_r=152ZPX2BM19DFN3HAFA6&pf_rd_s=merchandised-search-2&pf_rd_t=101&qid=1669403521&rnid=18018166031&ref=sr_pg_1
+      file: neweg/sketcher.html
 
 scrapper:
   browser:

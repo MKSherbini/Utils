@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import skull.shopping.model.AmazonProduct;
+import skull.shopping.model.Product;
+import skull.shopping.model.SearchRelation;
 import skull.shopping.page.amazon.ProductPage;
 import skull.shopping.page.amazon.SearchPage;
 
@@ -23,16 +25,18 @@ public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
         var productUrl = SearchPage.getUrl(el);
         var price = SearchPage.getPrice(el);
         var oldPrice = SearchPage.getOldPrice(el);
-        var discount = (int) ((oldPrice - price) / oldPrice);
-        if (oldPrice == -1) discount = 0;
+        var discount = oldPrice == -1 ? 0 : (int) ((oldPrice - price) / oldPrice * 100);
 
-        var tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1));
-        driver.get(productUrl);
+        int shipping = -1;
+        if (Product.searchRelation != SearchRelation.DISCOUNT) {
+            var tabs = new ArrayList<>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1));
+            driver.get(productUrl);
 
-        var shipping = ProductPage.getShippingPrice(driver);
+            shipping = ProductPage.getShippingPrice(driver);
 
-        driver.switchTo().window(tabs.get(0));
+            driver.switchTo().window(tabs.get(0));
+        }
 
         final AmazonProduct product = AmazonProduct.builder()
                 .shippingPrice(shipping)

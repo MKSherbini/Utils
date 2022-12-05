@@ -22,10 +22,10 @@ public class NoonProductCreator implements ProductCreator<NoonProduct> {
     @Override
     public NoonProduct createProductFromSearchPage(WebElement element) {
         final NoonProduct noonProduct = NoonProduct.builder()
-                .discount(SearchPage.getDiscount(driver, element))
+                .discount(SearchPage.getDiscount(element))
                 .itemName(SearchPage.getItemName(element))
                 .price(SearchPage.getPrice(element))
-                .oldPrice(SearchPage.getOldPrice(driver, element))
+                .oldPrice(SearchPage.getOldPrice(element))
                 .imageUrls(SearchPage.getImageUrls(element))
                 .url(SearchPage.getUrl(element))
                 .build();
@@ -48,10 +48,10 @@ public class NoonProductCreator implements ProductCreator<NoonProduct> {
         driver.switchTo().window(tabs.get(0));
 
         return NoonProduct.builder()
-                .discount(SearchPage.getDiscount(driver, element))
+                .discount(SearchPage.getDiscount(element))
                 .itemName(itemName)
                 .price(SearchPage.getPrice(element))
-                .oldPrice(SearchPage.getOldPrice(driver, element))
+                .oldPrice(SearchPage.getOldPrice(element))
                 .imageUrls(imageUrls)
                 .sellerName(sellerName)
                 .isFullfilled(isExpress)
@@ -62,7 +62,7 @@ public class NoonProductCreator implements ProductCreator<NoonProduct> {
     @Override
     public NoonProduct createProductIfWorth(WebElement element) {
         var productUrl = SearchPage.getUrl(element);
-        final int discount = SearchPage.getDiscount(driver, element);
+        final int discount = SearchPage.getDiscount( element);
         final float price = SearchPage.getPrice(element);
 
         if (!isValuable(discount, price)) return null;
@@ -87,7 +87,7 @@ public class NoonProductCreator implements ProductCreator<NoonProduct> {
                 .discount(discount)
                 .itemName(itemName)
                 .price(price)
-                .oldPrice(SearchPage.getOldPrice(driver, element))
+                .oldPrice(SearchPage.getOldPrice(element))
                 .imageUrls(imageUrls)
                 .sellerName(sellerName)
                 .isFullfilled(isExpress)
@@ -96,7 +96,7 @@ public class NoonProductCreator implements ProductCreator<NoonProduct> {
     }
 
     private boolean isValuable(WebElement element) {
-        var discount = SearchPage.getDiscount(driver, element);
+        var discount = SearchPage.getDiscount(element);
         var price = SearchPage.getPrice(element);
 
         return isValuable(discount, price);

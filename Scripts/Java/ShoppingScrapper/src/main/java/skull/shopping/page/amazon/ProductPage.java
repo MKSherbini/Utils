@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import skull.shopping.utils.ImplicitWaitManipulator;
+import skull.shopping.utils.SeleniumDriverUtil;
 import skull.shopping.utils.SafeParser;
 
 import java.util.Optional;
@@ -17,11 +17,11 @@ public class ProductPage {
     }
 
     public static int getShippingPrice(WebDriver driver) {
-        Optional<WebElement> el = ImplicitWaitManipulator.findIfElementExists(driver, By.cssSelector("#deliveryBlockMessage"));
+        Optional<WebElement> el = SeleniumDriverUtil.findIfElementExists(driver, By.cssSelector("#deliveryBlockMessage"));
         if (el.isEmpty() || el.get().getText().length() > 50) return Integer.MAX_VALUE;
         var splits = el.get().getText().split(" ");
         if (splits.length == 0 || splits[0].isEmpty()) {
-            el = ImplicitWaitManipulator.findIfElementExists(driver, By.cssSelector("#abbreviate_shipping_accordion_head"));
+            el = SeleniumDriverUtil.findIfElementExists(driver, By.cssSelector("#abbreviate_shipping_accordion_head"));
             if (el.isEmpty()) return Integer.MAX_VALUE;
             splits = el.get().getText().split(" ");
             if (splits.length < 2 || splits[1].isEmpty()) return Integer.MAX_VALUE;

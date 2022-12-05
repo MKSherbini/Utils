@@ -12,7 +12,7 @@ import skull.shopping.utils.SafeParser;
 public abstract class AmazonPageByPageScrapper extends PageByPageScrapper<AmazonProduct> {
 
     protected AmazonPageByPageScrapper(WebDriver driver, String startUrl, String filePath, String logID) {
-        super(driver, startUrl, new AmazonProductCreator(driver), new AmazonProductPrinter(filePath, logID));
+        super(driver, startUrl + "&language=en", new AmazonProductCreator(driver), new AmazonProductPrinter(filePath, logID));
     }
 
     @Override

@@ -22,6 +22,16 @@ public class AmazonProductPrinter extends ProductPrinter<AmazonProduct> {
                 "  <!-- Bootstrap CSS -->\n" +
                 "  <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\">\n" +
                 "\n" +
+                "<style>\n" +
+                "      td {\n" +
+                "            border: 1px solid #000;\n" +
+                "        }\n" +
+                "        \n" +
+                "        tr td:last-child {\n" +
+                "            width: 1%%;\n" +
+                "            white-space: nowrap;\n" +
+                "        }\n" +
+                "</style>" +
                 "  <title>Discounts</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
@@ -59,7 +69,7 @@ public class AmazonProductPrinter extends ProductPrinter<AmazonProduct> {
                 "      <td> <a href=\"" + discount.getUrl() + "\">" + discount.getItemName() + "</a></td>\n" +
                 "      <td>" + discount.getPrice() + "</td>\n" +
                 "      <td>" + discount.getOldPrice() + "</td>\n" +
-                "      <td><img src=\"" + discount.getImageUrl() + "\" width=100px></td>\n" +
+                "      <td><img src=\"" + discount.getImageUrl() + "\" width='250px' ></td>\n" +
                 "  </tr>";
     }
 }

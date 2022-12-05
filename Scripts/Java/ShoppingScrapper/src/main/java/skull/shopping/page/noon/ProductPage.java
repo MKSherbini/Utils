@@ -2,7 +2,7 @@ package skull.shopping.page.noon;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import skull.shopping.utils.ImplicitWaitManipulator;
+import skull.shopping.utils.SeleniumDriverUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class ProductPage {
     }
 
     public static boolean getExpressStatus(WebDriver driver) {
-        return ImplicitWaitManipulator.findIfElementExists(driver,
+        return SeleniumDriverUtil.findIfElementExists(driver,
                 By.cssSelector(".estimator_right img[src*=fulfilment_express]")).isPresent();
     }
 
