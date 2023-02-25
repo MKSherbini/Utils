@@ -1,15 +1,12 @@
 package skull.shopping.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import skull.shopping.AppConstants;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Slf4j
@@ -21,6 +18,7 @@ public class ScrapperConfig {
     private SearchRelation searchRelation;
     private int minPrice;
     private int maxPrice;
+    private int pageSaveFreq;
 
     private String outputDir;
 
@@ -28,10 +26,11 @@ public class ScrapperConfig {
     void init() {
         log.info(this.toString());
 
-        Product.maxShippingPrice = maxShippingPrice;
-        Product.minDiscount = minDiscount;
-        Product.searchRelation = searchRelation;
-        Product.minPrice = minPrice;
-        Product.maxPrice = maxPrice;
+        AppConstants.MAX_SHIPPING_PRICE = maxShippingPrice;
+        AppConstants.MIN_DISCOUNT = minDiscount;
+        AppConstants.SEARCH_RELATION = searchRelation;
+        AppConstants.MIN_PRICE = minPrice;
+        AppConstants.MAX_PRICE = maxPrice;
+        AppConstants.PAGE_SAVE_FREQ = pageSaveFreq;
     }
 }

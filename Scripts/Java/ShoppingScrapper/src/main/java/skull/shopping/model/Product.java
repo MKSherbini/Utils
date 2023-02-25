@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import static skull.shopping.AppConstants.*;
+
 @Slf4j
 @Data
 @AllArgsConstructor
@@ -24,11 +26,7 @@ public abstract class Product implements Comparable<Product> {
     protected List<String> imageUrls;
     protected String sellerName;
 
-    public static int maxShippingPrice;
-    public static int minDiscount;
-    public static SearchRelation searchRelation;
-    public static int minPrice;
-    public static int maxPrice;
+
 
     @Override
     public int compareTo(Product o) {
@@ -46,22 +44,27 @@ public abstract class Product implements Comparable<Product> {
     }
 
     public boolean isValuable() {
-        if (minPrice != -1 && price < minPrice) return false;
-        if (maxPrice != -1 && price > maxPrice) return false;
+        return isValuable(price, discount, shippingPrice);
+    }
 
-        switch (searchRelation) {
+    public static boolean isValuable(float price, int discount, int shippingPrice) {
+        if (MIN_PRICE != -1 && price < MIN_PRICE) return false;
+        if (MAX_PRICE != -1 && price > MAX_PRICE) return false;
+
+        switch (SEARCH_RELATION) {
             case EITHER:
-                return (discount >= minDiscount || shippingPrice <= maxShippingPrice);
+                return (discount >= MIN_DISCOUNT || shippingPrice <= MAX_SHIPPING_PRICE);
             case BOTH:
-                return (discount >= minDiscount && shippingPrice <= maxShippingPrice);
+                return (discount >= MIN_DISCOUNT && shippingPrice <= MAX_SHIPPING_PRICE);
             case DISCOUNT:
-                return (discount >= minDiscount);
+                return (discount >= MIN_DISCOUNT);
             case SHIPPING:
-                return (shippingPrice <= maxShippingPrice);
+                return (shippingPrice <= MAX_SHIPPING_PRICE);
             default:
                 return false;
         }
     }
+
 
     public boolean goodShipping() {
         return (shippingPrice <= 1000);

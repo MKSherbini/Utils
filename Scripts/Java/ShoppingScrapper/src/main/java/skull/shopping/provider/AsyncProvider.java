@@ -26,7 +26,7 @@ public class AsyncProvider {
     public void submitDiscountsScrapJob(String url, String fileName) {
         final WebDriver driver = driverProvider.getObject().getDriver();
         log.info("submitDiscountsScrapJob with driver: {}", driver.hashCode());
-        new NoonDiscountsScrapper(driver, url, scrapperConfig.getOutputDir() + "\\NoonDiscounts\\" + fileName, fileName).call();
+        new NoonDiscountsScrapper(driver, url, scrapperConfig.getOutputDir() + fileName, fileName).call();
     }
 
     @Async
@@ -38,14 +38,14 @@ public class AsyncProvider {
     public void submitAmazonShippingScrapJob(String url, String fileName) {
         log.info(fileName);
         final WebDriver driver = driverProvider.getObject().getDriver();
-        new AmazonSearchScrapper(driver, url, scrapperConfig.getOutputDir() + "\\AmazonJP\\" + fileName, fileName).call();
+        new AmazonSearchScrapper(driver, url, scrapperConfig.getOutputDir() + fileName, fileName).call();
     }
 
     @Async
     public void submitSearchScrapJob(String url, String fileName, List<String> keywords) {
         final WebDriver driver = driverProvider.getObject().getDriver();
         log.info("submitSearchScrapJob with driver: {}", driver.hashCode());
-        new NoonSearchScrapper(driver, url, scrapperConfig.getOutputDir() + "\\NoonDiscounts\\" + fileName, fileName, keywords).call();
+        new NoonSearchScrapper(driver, url, scrapperConfig.getOutputDir() + fileName, fileName, keywords).call();
     }
 
 

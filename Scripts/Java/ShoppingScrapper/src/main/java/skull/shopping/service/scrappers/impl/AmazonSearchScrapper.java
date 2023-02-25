@@ -19,9 +19,8 @@ public class AmazonSearchScrapper extends AmazonPageByPageScrapper {
 
     public List<AmazonProduct> scrapPage() {
         return SearchPage.getAllElements(driver).stream()
-                .map(creator::createProduct)
+                .map(creator::createProductIfWorth)
                 .filter(Objects::nonNull)
-                .filter(AmazonProduct::isValuable)
                 .collect(Collectors.toList());
     }
 }

@@ -11,6 +11,8 @@ import skull.shopping.page.amazon.SearchPage;
 
 import java.util.ArrayList;
 
+import static skull.shopping.AppConstants.SEARCH_RELATION;
+
 @Slf4j
 public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
     private final String INVALID_URL = "javascript:void(0)";
@@ -28,7 +30,7 @@ public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
         var discount = oldPrice == -1 ? 0 : (int) ((oldPrice - price) / oldPrice * 100);
 
         int shipping = -1;
-        if (Product.searchRelation != SearchRelation.DISCOUNT) {
+        if (SEARCH_RELATION != SearchRelation.DISCOUNT) {
             var tabs = new ArrayList<>(driver.getWindowHandles());
             driver.switchTo().window(tabs.get(1));
             driver.get(productUrl);
@@ -51,5 +53,38 @@ public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
         return product;
     }
 
+    @Override
+    public AmazonProduct createProductIfWorth(WebElement el) {
+        var productUrl = SearchPage.getUrl(el);
+        var price = SearchPage.getPrice(el);
+        var oldPrice = SearchPage.getOldPrice(el);
+        var discount = oldPrice == -1 ? 0 : (int) ((oldPrice - price) / oldPrice * 100);
 
+        int shipping = -1;
+        if (SEARCH_RELATION != SearchRelation.DISCOUNT) {
+            var tabs = new ArrayList<>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(1));
+            driver.get(productUrl);
+
+            shipping = ProductPage.getShippingPrice(driver);
+
+            driver.switchTo().window(tabs.get(0));
+        }
+
+        if (!Product.isValuable(price, discount, shipping)) {
+            log.info("rejected: {}", productUrl);
+            return null;
+        }
+        log.info("accepted: {}", productUrl);
+
+        return AmazonProduct.builder()
+                .shippingPrice(shipping)
+                .discount(discount)
+                .itemName(SearchPage.getItemName(el))
+                .price(price)
+                .oldPrice(oldPrice)
+                .imageUrl(SearchPage.getImageUrl(el))
+                .url(productUrl)
+                .build();
+    }
 }

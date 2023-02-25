@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import static skull.shopping.AppConstants.PAGE_SAVE_FREQ;
+
 @Slf4j
 public abstract class PageByPageScrapper<T extends Product> implements Callable<List<T>>, PageScrapperInterface<List<T>> {
     protected final WebDriver driver;
@@ -56,8 +58,11 @@ public abstract class PageByPageScrapper<T extends Product> implements Callable<
                 driver.get(startUrl + "&page=" + page);
             log.info("{}: Page-{}/{}", printer.getLogID(), page, pagesCount);
             allDiscounts.addAll(pageScrapper.scrapPage());
-            printer.sortAndPrint(allDiscounts);
+            if (page % PAGE_SAVE_FREQ == 0)
+                printer.sortAndPrint(allDiscounts);
         }
+        printer.sortAndPrint(allDiscounts);
+
         return allDiscounts;
     }
 

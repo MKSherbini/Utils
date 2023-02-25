@@ -1,18 +1,20 @@
 invoker:
-#  &language=en_AE
+  #  &language=en_AE
   appRequests:
     - app: AMAZON
-      url: https://www.amazon.eg/s?i=fashion&bbn=56374766031&language=en_AE&rh=n%3A18018165031%2Cn%3A56374766031%2Cn%3A21845147031%2Cp_6%3AA1ZVRGNO5AYLOV&s=price-desc-rank&dc&language=en&pf_rd_i=52295425031&pf_rd_m=A1ZVRGNO5AYLOV&pf_rd_p=b390d9e5-dd8e-4bb5-a3e5-512984b16602&pf_rd_r=152ZPX2BM19DFN3HAFA6&pf_rd_s=merchandised-search-2&pf_rd_t=101&qid=1669403521&rnid=18018166031&ref=sr_pg_1
-      file: neweg/sketcher.html
+      url: https://www.amazon.eg/s?rh=n%3A21840247031&fs=true&language=en&ref=lp_21840247031_sar
+      file: snacks2.html
 
 scrapper:
   browser:
-    visible: false
-  outputDir: D:/_Temp/Shopping
+    visible: true
+  outputDir: D:/_Temp/Shopping/
   maxShippingPrice: 1000
   minDiscount: 20
   # EITHER, BOTH, SHIPPING, DISCOUNT
   searchRelation: DISCOUNT
-#  -1 or limits
+  #  -1 or limits
   minPrice: -1
   maxPrice: -1
+  #  save each n pages
+  pageSaveFreq: 5

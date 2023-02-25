@@ -7,6 +7,7 @@ import skull.shopping.utils.SafeParser;
 import skull.shopping.utils.SeleniumDriverUtil;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SearchPage {
     static final String CURRENCIES_PATTERN = "¥|EGP\\u00a0";
@@ -39,7 +40,11 @@ public class SearchPage {
     }
 
     private static float parsePrices(WebElement webElement, int index) {
-        final List<WebElement> prices = webElement.findElements(By.cssSelector(".a-price .a-offscreen"));
+        final Optional<List<WebElement>> elementsExists = SeleniumDriverUtil.findIfElementsExists(webElement, By.cssSelector(".a-price .a-offscreen"));
+        if (elementsExists.isEmpty()) {
+            return -1;
+        }
+        final List<WebElement> prices = elementsExists.get();
         if (prices.size() < index + 1) return -1;
         if (index == 1 && SeleniumDriverUtil.findParent(prices.get(1)).getAttribute("data-a-strike") == null) return -1;
 

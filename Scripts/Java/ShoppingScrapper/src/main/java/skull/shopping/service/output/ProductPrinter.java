@@ -19,19 +19,29 @@ public abstract class ProductPrinter<T> {
     protected ProductPrinter(String filePath, String logID) {
         this.filePath = filePath;
         this.logID = logID;
+        try {
+            log.info("file printer to {}:{}", filePath.substring(0,
+                    filePath.lastIndexOf('/')), filePath);
+            Files.createDirectories(Path.of(
+                    filePath.substring(0,
+                            filePath.lastIndexOf('/'))
+            ));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public abstract String renderHtmlOutput(List<T> products);
 
-    public void printToFile(String location, String data) throws IOException {
-        Files.write(Path.of(location), data.getBytes());
+    public void printToFile(String data) throws IOException {
+        Files.write(Path.of(filePath), data.getBytes());
     }
 
     public void sortAndPrint(List<T> products) {
         log.info("{}:writing pages...", logID);
         try {
             products.sort(Collections.reverseOrder());
-            printToFile(filePath, renderHtmlOutput(products));
+            printToFile(renderHtmlOutput(products));
         } catch (IOException e) {
             e.printStackTrace();
         }
