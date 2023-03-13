@@ -2,7 +2,7 @@ invoker:
   #  &language=en_AE
   appRequests:
     - app: AMAZON
-      url: https://www.amazon.eg/s?rh=n%3A21840247031&fs=true&language=en&ref=lp_21840247031_sar
+      url: https://www.amazon.ae/s?k=shoes+for+men&rh=n%3A11497631031%2Cp_89%3ASkechers&dc&ds=v1%3ADRuWlefwXrNCcGQURnfXW8%2FVP6nOZvg3WVGeoBmhD2s&qid=1678581705&rnid=15703921031&sprefix=shoe%2Caps%2C211&ref=sr_nr_p_89_2
       file: snacks2.html
 
 scrapper:

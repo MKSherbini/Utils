@@ -3,10 +3,15 @@ package skull.shopping.service.scrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import skull.shopping.model.AmazonProduct;
 import skull.shopping.service.creator.AmazonProductCreator;
 import skull.shopping.service.output.AmazonProductPrinter;
 import skull.shopping.utils.SafeParser;
+import skull.shopping.utils.SeleniumDriverUtil;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public abstract class AmazonPageByPageScrapper extends PageByPageScrapper<AmazonProduct> {
@@ -16,9 +21,18 @@ public abstract class AmazonPageByPageScrapper extends PageByPageScrapper<Amazon
     }
 
     @Override
-    int getPages() {
-        final var n1 = SafeParser.parseInt(driver.findElement(By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::span[1]")).getText(), 1);
-        final var n2 = SafeParser.parseInt(driver.findElement(By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::a[1]")).getText(), 1);
-        return Math.max(n1, n2); // why 10?
+    int getPages() { // why stuck on 10?
+        final List<By> options = List.of(
+                By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::span[1]"),
+                By.xpath("//a[contains(@class,'s-pagination-next')]//preceding-sibling::a[1]")
+        );
+
+        return options.stream()
+                .map(o -> SeleniumDriverUtil.findIfElementExists(driver, o))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(WebElement::getText)
+                .mapToInt(o -> SafeParser.parseInt(o, 1))
+                .max().orElse(1);
     }
 }

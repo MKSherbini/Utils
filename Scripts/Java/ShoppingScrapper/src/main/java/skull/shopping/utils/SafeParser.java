@@ -24,6 +24,7 @@ public class SafeParser {
             res = Float.parseFloat(value);
         } catch (NumberFormatException ignored) {
         }
+        log.info("{" + res + "}");
         return res;
     }
 }
