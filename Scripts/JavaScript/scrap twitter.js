@@ -4,10 +4,10 @@ var following = new Set();
     var cnt = 0;
 
     function FkingCountIT() {
-        window.scrollBy(0, 2000);
-        var got = document.getElementsByClassName("css-901oao css-bfa6kz r-111h2gw r-18u37iz r-1qd0xha r-a023e6 r-16dba41 r-ad9z0x r-bcqeeo r-qvutc0");
+        window.scrollBy(0, 1000);
+        var got = document.querySelectorAll("div[data-testid='cellInnerDiv']");
         for (let i = 0; i < got.length; i++) {
-            const tag = got[i].firstChild.innerHTML;
+            var tag = got[i].querySelector("a").href;
             following.add(tag);
         }
 
@@ -19,9 +19,15 @@ var following = new Set();
             cnt++;
             if (cnt == 2) {
                 console.log(following);
+                console.log(Array.from(following).join('\n'));
+                navigator.clipboard.writeText(Array.from(following).join('\n'));
                 clearInterval(timer);
             }
         } else { cnt = 0; }
     };
     timer = setInterval(FkingCountIT, 2000);
 }());
+
+setTimeout(()=>{
+    navigator.clipboard.writeText(Array.from(following).join('\n'))
+},1000);

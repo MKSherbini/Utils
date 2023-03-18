@@ -118,15 +118,20 @@ class ${className}
 {
 public:
 //
-${cases[0].output.type} solution(${cases[0].inputs.map(param => param.type + " " + param.name).join(", ")}) {
+${fillCasesSafe(cases)}
+};`;
+    }
+
+    function fillCasesSafe(cases) {
+        if (cases === void 0 || cases.length === 0) return '';
+        return `${cases[0].output.type} solution(${cases[0].inputs.map(param => param.type + " " + param.name).join(", ")}) {
 
 }
 vector<${cases[0].output.type}> output = {
 ${cases.map(c => "\t" + c.output.value).join(",\n")}
 };
 static constexpr int const& inputs = ${cases[0].inputs.length};
-${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}
-};`;
+${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
     }
 
     function TestCase(input, output) {
