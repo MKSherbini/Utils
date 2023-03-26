@@ -123,7 +123,7 @@ ${fillCasesSafe(cases)}
     }
 
     function fillCasesSafe(cases) {
-        if (cases === void 0 || cases.length === 0) return '';
+        if (cases === void 0 || cases.length === 0 || cases[0].inputs === void 0) return '';
         return `${cases[0].output.type} solution(${cases[0].inputs.map(param => param.type + " " + param.name).join(", ")}) {
 
 }
@@ -140,6 +140,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
         console.log(`TestCase.outputParam: ${JSON.stringify(this.output)}`)
 
         let splits = input.split(/, (?=\w)/);
+        if (splits === null) return;
         this.inputs = Array(splits.length);
         for (let i = 0; i < splits.length; i++) {
             console.log(`TestCase.input: ${splits[i]}`)
@@ -173,6 +174,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
     function InputParam(value) {
         let splits = /^([\w]+)(?: = )?(.*)/.exec(value);
         console.log(`InputParam.splits: ${splits}`)
+        if (splits === null) return;
 
         this.name = splits[1]
         this.value = splits[2]
