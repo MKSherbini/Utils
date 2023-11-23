@@ -46,8 +46,7 @@ public abstract class PageByPageScrapper<T extends Product> implements Callable<
         }
     }
 
-    public List<T> scrapPageByPage(
-            PageScrapperInterface<List<T>> pageScrapper) {
+    public List<T> scrapPageByPage(PageScrapperInterface<List<T>> pageScrapper) {
         driver.get(startUrl);
         var pagesCount = getPages();
 

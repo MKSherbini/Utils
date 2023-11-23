@@ -56,6 +56,7 @@ public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
     @Override
     public AmazonProduct createProductIfWorth(WebElement el) {
         var productUrl = SearchPage.getUrl(el);
+        final String itemName = SearchPage.getItemName(el);
         var price = SearchPage.getPrice(el);
         var oldPrice = SearchPage.getOldPrice(el);
         var discount = oldPrice == -1 ? 0 : (int) ((oldPrice - price) / oldPrice * 100);
@@ -71,7 +72,7 @@ public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
             driver.switchTo().window(tabs.get(0));
         }
 
-        if (!Product.isValuable(price, discount, shipping)) {
+        if (!Product.isValuable(itemName, price, discount, shipping)) {
             log.info("rejected: {}", productUrl);
             return null;
         }
@@ -80,7 +81,7 @@ public class AmazonProductCreator implements ProductCreator<AmazonProduct> {
         return AmazonProduct.builder()
                 .shippingPrice(shipping)
                 .discount(discount)
-                .itemName(SearchPage.getItemName(el))
+                .itemName(itemName)
                 .price(price)
                 .oldPrice(oldPrice)
                 .imageUrl(SearchPage.getImageUrl(el))

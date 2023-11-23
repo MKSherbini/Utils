@@ -2,15 +2,22 @@ invoker:
   #  &language=en_AE
   appRequests:
     - app: AMAZON
-      url: https://www.amazon.ae/s?k=shoes+for+men&rh=n%3A11497631031%2Cp_89%3ASkechers&dc&ds=v1%3ADRuWlefwXrNCcGQURnfXW8%2FVP6nOZvg3WVGeoBmhD2s&qid=1678581705&rnid=15703921031&sprefix=shoe%2Caps%2C211&ref=sr_nr_p_89_2
-      file: snacks2.html
+      url: https://www.amazon.com/s?k=lenovo+legion+laptop&i=deals-intl-ship&crid=J2O3Y8MEXH14&sprefix=legion+laptop%2Cdeals-intl-ship%2C304&ref=nb_sb_ss_fb_1_13
+      file: blackfriday/legion.html
+    - app: AMAZON
+      url: https://www.amazon.com/s?k=Asus+ROG+laptop&i=deals-intl-ship&crid=1WSZUH00QEE8C&sprefix=asus+rog+laptop%2Cdeals-intl-ship%2C301&ref=nb_sb_noss_2
+      file: blackfriday/asus.html
+    - app: AMAZON
+      url: https://www.amazon.eg/s?k=body+spray&i=black-friday&crid=LIFMH2DMX3WH&sprefix=body+spray%2Cblack-friday%2C136&ref=nb_sb_noss
+      file: blackfriday/spray.html
 
 scrapper:
   browser:
-    visible: true
-  outputDir: D:/_Temp/Shopping/
-  maxShippingPrice: 1000
-  minDiscount: 20
+    visible: false
+  outputDir: C:/Users/mh-sh/OneDrive/Documents/ShoppingScrapper/_/
+  # outputDir: D:/_Temp/Shopping/
+  maxShippingPrice: 0
+  minDiscount: 10
   # EITHER, BOTH, SHIPPING, DISCOUNT
   searchRelation: DISCOUNT
   #  -1 or limits

@@ -27,7 +27,6 @@ public abstract class Product implements Comparable<Product> {
     protected String sellerName;
 
 
-
     @Override
     public int compareTo(Product o) {
         if (discount != o.discount)
@@ -44,10 +43,11 @@ public abstract class Product implements Comparable<Product> {
     }
 
     public boolean isValuable() {
-        return isValuable(price, discount, shippingPrice);
+        return isValuable(itemName, price, discount, shippingPrice);
     }
 
-    public static boolean isValuable(float price, int discount, int shippingPrice) {
+    public static boolean isValuable(String itemName, float price, int discount, int shippingPrice) {
+        if (itemName.startsWith("Sponsored")) return false;
         if (MIN_PRICE != -1 && price < MIN_PRICE) return false;
         if (MAX_PRICE != -1 && price > MAX_PRICE) return false;
 

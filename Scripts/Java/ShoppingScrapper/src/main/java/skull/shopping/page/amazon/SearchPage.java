@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class SearchPage {
-    static final String CURRENCIES_PATTERN = "¥|EGP\\u00a0|AED.";
+    static final String CURRENCIES_PATTERN = "¥|EGP\\u00a0|AED.|\\$";
 
     private SearchPage() {
     }
