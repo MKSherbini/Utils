@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import skull.shopping.model.InvokerConfig;
 import skull.shopping.provider.AsyncProvider;
+import skull.shopping.service.scrappers.AmazonParallelSearchScrapper;
 
 import javax.annotation.PostConstruct;
 
@@ -15,6 +16,7 @@ public class Invoker {
     private final AsyncProvider asyncProvider;
 
     private final InvokerConfig invokerConfig;
+    private final AmazonParallelSearchScrapper amazonParallelSearchScrapper;
 
     @PostConstruct
     public void onStart() {
@@ -47,7 +49,8 @@ public class Invoker {
         invokerConfig.getAppRequests().forEach(
                 k -> {
                     log.info(k.toString());
-                    asyncProvider.submitAmazonShippingScrapJob(k.getUrl(), k.getFile());
+//                    asyncProvider.submitAmazonShippingScrapJob(k.getUrl(), k.getFile());
+                    amazonParallelSearchScrapper.scrapByPageRanges(k);
                 }
         );
 //        List.of(

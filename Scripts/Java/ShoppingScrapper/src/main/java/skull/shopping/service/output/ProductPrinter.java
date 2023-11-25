@@ -46,4 +46,13 @@ public abstract class ProductPrinter<T> {
             e.printStackTrace();
         }
     }
+
+    public void print(List<T> products) {
+        log.info("{}:writing pages...", logID);
+        try {
+            printToFile(renderHtmlOutput(products));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

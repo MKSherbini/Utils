@@ -48,8 +48,8 @@ public class DriverProvider {
         return firefoxOptions;
     }
 
-    @PreDestroy
-        // not called on prototype
+    //    @PreDestroy
+    // not called on prototype
     void cleanup() {
         log.info("DriverProvider.cleanup");
         driver.quit();

@@ -22,8 +22,8 @@ public class SpringBootRunner {
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setThreadNamePrefix("Thread-");
-        threadPoolTaskExecutor.setCorePoolSize(3);
-        threadPoolTaskExecutor.setMaxPoolSize(5);
+        threadPoolTaskExecutor.setCorePoolSize(6);
+        threadPoolTaskExecutor.setMaxPoolSize(10);
         threadPoolTaskExecutor.setQueueCapacity(600);
         threadPoolTaskExecutor.setAllowCoreThreadTimeOut(true);
         threadPoolTaskExecutor.afterPropertiesSet();

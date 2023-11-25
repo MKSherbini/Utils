@@ -2,18 +2,12 @@ invoker:
   #  &language=en_AE
   appRequests:
     - app: AMAZON
-      url: https://www.amazon.com/s?k=lenovo+legion+laptop&i=deals-intl-ship&crid=J2O3Y8MEXH14&sprefix=legion+laptop%2Cdeals-intl-ship%2C304&ref=nb_sb_ss_fb_1_13
-      file: blackfriday/legion.html
-    - app: AMAZON
-      url: https://www.amazon.com/s?k=Asus+ROG+laptop&i=deals-intl-ship&crid=1WSZUH00QEE8C&sprefix=asus+rog+laptop%2Cdeals-intl-ship%2C301&ref=nb_sb_noss_2
-      file: blackfriday/asus.html
-    - app: AMAZON
-      url: https://www.amazon.eg/s?k=body+spray&i=black-friday&crid=LIFMH2DMX3WH&sprefix=body+spray%2Cblack-friday%2C136&ref=nb_sb_noss
-      file: blackfriday/spray.html
+      url: https://www.amazon.co.jp/s?k=gaming+laptop&i=computers&rh=n%3A2127209051&dc&language=en&ds=v1%3AYL9Zf2E%2B0NH2X5Zo7tXHQBr4adUlTanZDXLsNfBtNq4&crid=2FNGLCLTDNJUI&qid=1700899194&sprefix=ga%2Caps%2C1537&ref=sr_ex_p_n_price_fma_0
+      file: blackfriday-jp/laptop.html
 
 scrapper:
   browser:
-    visible: false
+    visible: true
   outputDir: C:/Users/mh-sh/OneDrive/Documents/ShoppingScrapper/_/
   # outputDir: D:/_Temp/Shopping/
   maxShippingPrice: 0
@@ -25,3 +19,5 @@ scrapper:
   maxPrice: -1
   #  save each n pages
   pageSaveFreq: 5
+  #  runs long tasks in parallel with max size n
+  batchSize: 30

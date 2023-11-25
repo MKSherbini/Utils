@@ -19,6 +19,7 @@ public class ScrapperConfig {
     private int minPrice;
     private int maxPrice;
     private int pageSaveFreq;
+    private int batchSize;
 
     private String outputDir;
 

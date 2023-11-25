@@ -6,6 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 public class Timer {
     private long time;
 
+    public Timer() {
+        mark();
+    }
+
     public long mark() {
         long last = time;
         time = System.currentTimeMillis();
