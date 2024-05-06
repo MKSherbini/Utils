@@ -67,15 +67,27 @@
     }
 
     function targetCaseFromFilter(filter) {
-        return filter.nextSibling.textContent.replaceAll(/\n */g, '').trim();
+        return filter
+            .replaceAll(/\n */g, '')
+            .trim();
     }
 
     function getCases() {
-        let filter = $("pre strong").filter((i, e) => e.innerText.indexOf("Input") !== -1 || e.innerText.indexOf("Output") !== -1);
-        let cases = Array(filter.length / 2);
-        for (let i = 0; i < filter.length; i += 2) {
-            cases[i / 2] = new TestCase(targetCaseFromFilter(filter[i]), targetCaseFromFilter(filter[i + 1]));
-            console.log(`case[${i / 2}]= ${JSON.stringify(cases[i / 2])}`);
+        let parents = $("pre strong").filter((i, e) => e.innerText.indexOf("Input") !== -1).map((i, e) => e.parentElement);
+        console.log(`parents length= ${parents.length}`);
+        let cases = Array(parents.length);
+        for (let i = 0; i < parents.length; i += 1) {
+            console.log(`parents[${i}]= ${JSON.stringify(parents[i].textContent)}`);
+            let parentSplits = parents[i].textContent.split(/(Input|Output|Explanation):\s*/);
+            console.log(`parentSplits size = ${parentSplits.length}`);
+            console.log(`parentSplits= ${JSON.stringify(parentSplits)}`);
+            if (parentSplits.length < 5) return;
+            let input = targetCaseFromFilter(parentSplits[2]);
+            let output = targetCaseFromFilter(parentSplits[4]);
+            console.log(`case[${i}] input= ${JSON.stringify(input)}`);
+            console.log(`case[${i}] output= ${JSON.stringify(output)}`);
+            cases[i] = new TestCase(input, output);
+            console.log(`case[${i}]= ${JSON.stringify(cases[i])}`);
         }
         return cases;
     }
@@ -97,7 +109,7 @@
         console.log(content);
         navigator.clipboard.writeText(content).then(() =>
             setTimeout(() =>
-                navigator.clipboard.writeText(name), 500)
+                navigator.clipboard.writeText(name + '.h'), 500)
         )
     }
 
@@ -112,7 +124,7 @@ ${cases.map(c => "\t" + c.inputs[idx].value).join(",\n")}
 #include "stdc++.h"
 using namespace std;
 
-//${window.location.href}
+//${/.*problems\/(.*)\//.exec(window.location.href)[0]}
 
 class ${className}
 {
@@ -139,11 +151,12 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
         console.log(`TestCase.output: ${output}`)
         console.log(`TestCase.outputParam: ${JSON.stringify(this.output)}`)
 
-        let splits = input.split(/, (?=\w)/);
+        console.log(`TestCase.input: ${input}`)
+        let splits = input.split(/, +(?=\w)/);
         if (splits === null) return;
         this.inputs = Array(splits.length);
         for (let i = 0; i < splits.length; i++) {
-            console.log(`TestCase.input: ${splits[i]}`)
+            console.log(`TestCase.input[${i}]: ${splits[i]}`)
             this.inputs[i] = new InputParam(splits[i]);
             console.log(`TestCase.inputParam: ${JSON.stringify(this.inputs[i])}`)
         }
@@ -154,7 +167,7 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
         if (/^-?\d+/.test(sample))
             type = "int";
         else if (/^(true|false)/.test(sample))
-            type = "bool";
+            type = "uint8_t";
         else if (/^"[^"]{2,}"?$/.test(sample))
             type = "string";
         console.log(`guessLevelType.sample: ${sample} : ${type}`)
@@ -163,6 +176,8 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
 
     function guessType(value) {
         let levelTypeRegexRes = /^({*)([^,}]{1,5})/.exec(value);
+
+        console.log(`guessType.value: ${value}`)
         console.log(`guessType.levelTypeRegexRes: ${levelTypeRegexRes}`)
 
         let level = levelTypeRegexRes[1].length;
@@ -180,7 +195,9 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
         this.value = splits[2]
             .replaceAll("[", "{")
             .replaceAll("]", "}")
-            .replaceAll("null", "NULL");
+            .replaceAll("null", "NULL")
+            .replaceAll(/ */g, "")
+            .replaceAll(/\xA0*/g, "");
         this.type = guessType(this.value);
 
         if (this.type.includes("char"))
@@ -205,8 +222,8 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
 
     function createBtn(name, onclick) {
         try {
-            let parent = $(".navbar-left-container__3-qz");
-            let div = document.createElement('div');
+            let parent = $(".p-0");
+            let div = document.createElement('li');
             div.className = "nav-item-container__16kF";
             div.onclick = onclick;
             let a = document.createElement('a');
