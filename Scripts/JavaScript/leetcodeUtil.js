@@ -18,8 +18,8 @@
     setTimeout(
         () => {
             createBtn("Generate CPP Class", CreateTemplate);
-            createBtn("Auto Resubmit", runAutoResubmit);
-        }, 2000
+            createBtn(" Auto Resubmit", runAutoResubmit);
+        }, 5000
     )
 
     function runAutoResubmit() {
@@ -37,33 +37,40 @@
         else
             AutoResubmit.idx++;
 
-        $("button[data-cy='submit-code-btn']").click();
+        $("button[data-e2e-locator='console-submit-button']").click();
 
-        let refreshIntervalId = setInterval(
-            () => {
-                let values = $(".data__HC-i").map((i, x) => x.innerText);
-                if (values.length < 4) return;
-                console.log("submition: " + AutoResubmit.idx);
+        setTimeout(() => {
+            let refreshIntervalId = setInterval(
+                () => {
+                    let times = $("span.text-sd-foreground.text-lg.font-semibold");
+                    if ($("div.rounded-sd:nth-child(1) > div:nth-child(2) > span:nth-child(1)").length === 0) {
+                        return;
+                    }
 
-                values[0] = values[0].substr(0, values[0].length - 3);
-                values[1] = values[1].substr(0, values[1].length - 1);
-                values[2] = values[2].substr(0, values[2].length - 3);
-                values[3] = values[3].substr(0, values[3].length - 1);
-                AutoResubmit.runtime = Math.min(AutoResubmit.runtime === void 0 ? 99999999 : AutoResubmit.runtime, values[0]);
-                AutoResubmit.runtimePercent = Math.max(AutoResubmit.runtimePercent === void 0 ? 0 : AutoResubmit.runtimePercent, values[1]);
-                AutoResubmit.memory = Math.min(AutoResubmit.memory === void 0 ? 99999999 : AutoResubmit.memory, values[2]);
-                AutoResubmit.memoryPercent = Math.max(AutoResubmit.memoryPercent === void 0 ? 0 : AutoResubmit.memoryPercent, values[3]);
+                    let runtime = $("div.rounded-sd:nth-child(1) > div:nth-child(2) > span:nth-child(1)")[0].innerText;
+                    let runtimePercent = $("div.rounded-sd:nth-child(1) > div:nth-child(3) > span:nth-child(2)")[0].innerText.slice(0, -1);
+                    let memory = $("div.rounded-sd:nth-child(2) > div:nth-child(2) > span:nth-child(1)")[0].innerText;
 
-                clearInterval(refreshIntervalId);
+                    let memoryPercent = $("div.rounded-sd:nth-child(2) > div:nth-child(3) > span:nth-child(2)")[0].innerText.slice(0, -1);
 
-                let content = `${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`;
-                console.log(content);
-                if (AutoResubmit.idx < 12) {
-                    setTimeout(AutoResubmit, 6000);
-                } else {
-                    navigator.clipboard.writeText(content);
-                }
-            }, 1000);
+                    console.log("submition: " + AutoResubmit.idx);
+
+                    AutoResubmit.runtime = Math.min(AutoResubmit.runtime === void 0 ? 99999999 : AutoResubmit.runtime, runtime);
+                    AutoResubmit.runtimePercent = Math.max(AutoResubmit.runtimePercent === void 0 ? 0 : AutoResubmit.runtimePercent, runtimePercent);
+                    AutoResubmit.memory = Math.min(AutoResubmit.memory === void 0 ? 99999999 : AutoResubmit.memory, memory);
+                    AutoResubmit.memoryPercent = Math.max(AutoResubmit.memoryPercent === void 0 ? 0 : AutoResubmit.memoryPercent, memoryPercent);
+
+                    clearInterval(refreshIntervalId);
+
+                    let content = `${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`;
+                    console.log(content);
+                    if (AutoResubmit.idx < 12) {
+                        setTimeout(AutoResubmit, 10);
+                    } else {
+                        navigator.clipboard.writeText(content);
+                    }
+                }, 1000); // check each second for page loaded
+        }, 10000) // wait for page reload
     }
 
     function targetCaseFromFilter(filter) {
@@ -222,16 +229,16 @@ ${cases[0].inputs.map((input, idx) => createCPPCase(cases, idx)).join("\n")}`
 
     function createBtn(name, onclick) {
         try {
-            let parent = $(".p-0");
-            let div = document.createElement('li');
-            div.className = "nav-item-container__16kF";
-            div.onclick = onclick;
-            let a = document.createElement('a');
-            a.className = "nav-item__5BvG";
-            a.innerText = name;
-            div.appendChild(a);
-            parent.append(div);
-            console.log(div);
+            let parent = $(".lc-md\\:flex");
+            let outer = document.createElement('a');
+            outer.className = "cursor-pointer justify-center hover:text-lc-icon-primary dark:hover:text-dark-lc-icon-primary flex items-center h-[32px] transition-none hover:bg-fill-quaternary dark:hover:bg-fill-quaternary text-gray-60 dark:text-gray-60";
+            outer.onclick = onclick;
+            let inner = document.createElement('div');
+            inner.className = "relative text-[16px] leading-[normal] before:block before:h-4 before:w-4";
+            inner.innerText = name;
+            outer.appendChild(inner);
+            parent.append(outer);
+            console.log(outer);
             console.log(`added button ${name}`);
         } catch (error) {
             console.log(`Couldn't add button ${name}, because ${error}`);
