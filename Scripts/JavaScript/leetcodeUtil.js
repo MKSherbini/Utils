@@ -42,16 +42,15 @@
         setTimeout(() => {
             let refreshIntervalId = setInterval(
                 () => {
-                    let times = $("span.text-sd-foreground.text-lg.font-semibold");
-                    if ($("div.rounded-sd:nth-child(1) > div:nth-child(2) > span:nth-child(1)").length === 0) {
+                    let values = $("span.font-semibold");
+                    if (values.length === 0) {
                         return;
                     }
 
-                    let runtime = $("div.rounded-sd:nth-child(1) > div:nth-child(2) > span:nth-child(1)")[0].innerText;
-                    let runtimePercent = $("div.rounded-sd:nth-child(1) > div:nth-child(3) > span:nth-child(2)")[0].innerText.slice(0, -1);
-                    let memory = $("div.rounded-sd:nth-child(2) > div:nth-child(2) > span:nth-child(1)")[0].innerText;
-
-                    let memoryPercent = $("div.rounded-sd:nth-child(2) > div:nth-child(3) > span:nth-child(2)")[0].innerText.slice(0, -1);
+                    let runtime = values[0].innerText;
+                    let runtimePercent = values[1].innerText.slice(0, -1);
+                    let memory = values[2].innerText;
+                    let memoryPercent = values[3].innerText.slice(0, -1);
 
                     console.log("submition: " + AutoResubmit.idx);
 
@@ -61,16 +60,17 @@
                     AutoResubmit.memoryPercent = Math.max(AutoResubmit.memoryPercent === void 0 ? 0 : AutoResubmit.memoryPercent, memoryPercent);
 
                     clearInterval(refreshIntervalId);
+                    values.each((i, x) => x.className = "");
 
                     let content = `${AutoResubmit.runtime} ms, faster than ${AutoResubmit.runtimePercent}% : ${AutoResubmit.memory} MB, less than ${AutoResubmit.memoryPercent}%`;
                     console.log(content);
                     if (AutoResubmit.idx < 12) {
-                        setTimeout(AutoResubmit, 10);
+                        setTimeout(AutoResubmit, 5000);
                     } else {
                         navigator.clipboard.writeText(content);
                     }
                 }, 1000); // check each second for page loaded
-        }, 10000) // wait for page reload
+        }, 3000) // wait for page reload
     }
 
     function targetCaseFromFilter(filter) {
@@ -100,7 +100,7 @@
     }
 
     function getClassName() {
-        let splits = /problems\/(.*)\//.exec(window.location.href)[1].split('-');
+        let splits = /problems\/(.*)\/description/.exec(window.location.href)[1].split('-');
         if (splits[splits.length - 1].replace(/[iv]+/, "") === "")
             splits[splits.length - 1] = splits[splits.length - 1].toUpperCase();
         return splits.map(s => s[0].toUpperCase() + s.substr(1))
