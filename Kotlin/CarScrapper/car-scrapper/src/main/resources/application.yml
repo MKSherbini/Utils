@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:car_db.db
+    driver-class-name: org.sqlite.JDBC
+    username: # Leave empty for SQLite
+    password: # Leave empty for SQLite
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 9090
