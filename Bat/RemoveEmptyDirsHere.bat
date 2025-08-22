@@ -1,0 +1,1 @@
+for /r "%%cd%%" /d %%F in (.) do @dir /b "%%F" | findstr "^" >nul || rmdir %%~fF
